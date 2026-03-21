@@ -5,51 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asoul吧服务器 | 官方发布页</title>
     <style>
-        /* 基础重置与全屏背景 */
+        /* ================= 页面全局与背景 ================= */
         body {
-            font-family: 'Microsoft YaHei', sans-serif;
+            font-family: 'Microsoft YaHei', -apple-system, sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* 这里可以把网址替换成你们服务器的精美截图 */
-            background: url('https://images.unsplash.com/photo-1607513746994-51f730a44832?q=80&w=1920&auto=format&fit=crop') no-repeat center center/cover;
+            /* 替换为你自己的背景图链接或文件名 */
+            background: url('111.png') no-repeat center center/cover;
             color: #fff;
         }
 
-        /* 毛玻璃质感的半透明主面板 */
-        .container {
-            max-width: 650px;
-            width: 90%;
-            background: rgba(30, 30, 35, 0.75); /* 半透明深色背景 */
-            backdrop-filter: blur(12px); /* 毛玻璃模糊特效 */
-            -webkit-backdrop-filter: blur(12px);
-            padding: 40px;
-            border-radius: 20px;
+        /* ================= 黑色毛玻璃主面板 ================= */
+        .glass-panel {
+            max-width: 550px;
+            width: 85%;
+            background: rgba(15, 15, 20, 0.6); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            padding: 40px 30px;
+            border-radius: 20px;
             text-align: center;
         }
 
         h1 { 
-            color: #fff; 
             margin-top: 0;
-            font-size: 2em;
+            font-size: 2.2em;
             letter-spacing: 2px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
-        /* 服务器状态呼吸灯 */
-        .status {
+        /* ================= 服务器在线呼吸灯 ================= */
+        .status-indicator {
             display: flex;
             align-items: center;
             justify-content: center;
             color: #4ade80;
             font-weight: bold;
-            margin-bottom: 25px;
-            font-size: 0.9em;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
         .dot {
             width: 10px;
@@ -57,22 +57,26 @@
             background-color: #4ade80;
             border-radius: 50%;
             margin-right: 8px;
-            box-shadow: 0 0 10px #4ade80;
+            box-shadow: 0 0 12px #4ade80;
             animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
-            0% { opacity: 0.5; transform: scale(0.8); }
+            0% { opacity: 0.4; transform: scale(0.8); }
             50% { opacity: 1; transform: scale(1.2); }
-            100% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 0.4; transform: scale(0.8); }
         }
 
-        /* 强调信息的卡片 */
+        /* ================= 信息卡片 (IP区) ================= */
         .info-box {
             background: rgba(0, 0, 0, 0.4);
             padding: 20px;
             border-radius: 12px;
-            margin: 20px 0;
+            margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .info-box:hover {
+            background: rgba(0, 0, 0, 0.6);
         }
         .info-title {
             color: #aaa;
@@ -82,100 +86,126 @@
         }
         .ip-text {
             color: #60a5fa;
-            font-size: 1.5em;
+            font-size: 1.4em;
             font-family: monospace;
             font-weight: bold;
             cursor: pointer;
+            display: inline-block;
             transition: color 0.3s;
         }
         .ip-text:hover { color: #93c5fd; }
-        .ip-hint {
+        .hint-text {
             display: block;
             font-size: 0.8em;
-            color: #666;
-            margin-top: 5px;
+            color: #888;
+            margin-top: 8px;
         }
 
-        /* 渐变色按钮 */
+        /* ================= 新增：温馨提示卡片 ================= */
+        .server-tips {
+            background: rgba(250, 204, 21, 0.1); /* 淡淡的黄色底色 */
+            border: 1px dashed rgba(250, 204, 21, 0.4);
+            color: #fef08a; /* 柔和的黄色文字 */
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* ================= 渐变按钮 ================= */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
         .btn {
-            display: inline-block;
-            padding: 12px 25px;
-            margin: 10px;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 20px;
             color: #fff;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: bold;
-            transition: all 0.3s ease;
+            font-size: 1.1em;
+            cursor: pointer;
             border: none;
+            transition: all 0.3s ease;
         }
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
-        .btn-download { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-        .btn-qq { background: linear-gradient(135deg, #ef4444, #dc2626); }
-        
-        /* 提取码样式适配暗色主题 */
-        .code-box {
-            display: inline-block;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 8px;
-            color: #ddd;
-            font-size: 0.9em;
-            border: 1px dashed rgba(255, 255, 255, 0.3);
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-        .code-box strong { color: #fff; font-size: 1.1em; }
+        .btn-download { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .btn-qq { background: linear-gradient(135deg, #f43f5e, #be123c); }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="glass-panel">
     <h1>Asoul吧服务器</h1>
     
-    <div class="status">
+    <div class="status-indicator">
         <div class="dot"></div>
-        服务器运行中 | 欢迎加入
+        服务器稳定运行中
     </div>
 
     <div class="info-box">
         <span class="info-title">💻 专属直连 IP 地址</span>
         <span class="ip-text" onclick="copyIP()" id="ip-address">ai.rainplay.cn:23402</span>
-        <span class="ip-hint">(点击 IP 地址即可一键复制)</span>
+        <span class="hint-text">(点击上方 IP 即可一键复制)</span>
     </div>
 
-    <div style="margin: 30px 0; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <a href="https://gh-proxy.com/https://github.com/Rorschachhhh/minizj/releases/download/v1.0.0/default.zip" class="btn btn-download" target="_blank">📥 下载最新整合包</a>
-        <span class="code-box">提取码: <strong>不需要嘿嘿</strong></span>
+    <div class="server-tips">
+        <strong>💡 温馨提示：</strong>本服为原版生存，使用 <strong>1.21.11</strong> 客户端即可直接输入 IP 加入游戏。下方整合包包含部分视觉/辅助模组，非必须下载项。
+    </div>
+
+    <div class="action-buttons">
+        <a href="https://pan.baidu.com/s/1jliez8tLm_36l0al57dmkg" class="btn btn-download" target="_blank">
+            📥 下载推荐整合包 (非必选)
+        </a>
+        
+        <button class="btn btn-qq" onclick="copyQQ()" id="qq-btn">
+            💬 一键复制 QQ 群号 (1036428799)
+        </button>
     </div>
     
-    <div style="margin: 20px 0;">
-        <a href="1036428799" class="btn btn-qq" target="_blank">💬 加入最新QQ群 (群号: 1036428799)</a>
-    </div>
-    
-    <p style="margin-top: 40px; font-size: 0.8em; color: rgba(255,255,255,0.4);">
+    <p style="margin-top: 35px; font-size: 0.8em; color: rgba(255,255,255,0.3);">
         防失联专属发布页 · 请按 Ctrl+D 收藏本站
     </p>
 </div>
 
 <script>
+    // 复制 IP 功能
     function copyIP() {
-        const ipText = document.getElementById("ip-address").innerText;
+        const ipText = "ai.rainplay.cn:23402";
         navigator.clipboard.writeText(ipText).then(() => {
             const ipElement = document.getElementById("ip-address");
-            const originalColor = ipElement.style.color;
-            ipElement.innerText = "复制成功！去游戏里粘贴吧";
-            ipElement.style.color = "#4ade80"; // 变成绿色提示成功
+            ipElement.innerText = "复制成功！快去游戏里粘贴吧";
+            ipElement.style.color = "#4ade80"; 
             
-            // 2秒后恢复原状
             setTimeout(() => {
                 ipElement.innerText = ipText;
-                ipElement.style.color = originalColor;
+                ipElement.style.color = "#60a5fa"; 
             }, 2000);
-        }).catch(err => {
-            alert('复制失败，请手动框选复制。');
+        });
+    }
+
+    // 复制 QQ 群号功能
+    function copyQQ() {
+        const qqNumber = "1036428799";
+        navigator.clipboard.writeText(qqNumber).then(() => {
+            const qqBtn = document.getElementById("qq-btn");
+            const originalText = qqBtn.innerText;
+            
+            qqBtn.innerText = "✅ 群号复制成功！请前往QQ搜索添加";
+            qqBtn.style.background = "linear-gradient(135deg, #10b981, #047857)"; 
+            
+            setTimeout(() => {
+                qqBtn.innerText = originalText;
+                qqBtn.style.background = "linear-gradient(135deg, #f43f5e, #be123c)"; 
+            }, 3000); 
         });
     }
 </script>
