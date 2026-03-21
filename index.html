@@ -291,9 +291,9 @@
             <br>
             <p><strong style="color:#f43f5e;">【严厉禁止】</strong></p>
             <ul>
-                <li>绝不容忍任何形式的作弊客户端（矿透、飞天、杀戮光环等），一经发现警告一次。</li>
-                <li>禁止恶意破坏他人建筑、偷窃他人箱子物品（后台有详尽的方块交互记录）。</li>
-                <li>禁止在公屏刷屏、引战或发布违规言论。</li>
+                <li>禁飞天、杀戮光环等，一经发现警告一次。</li>
+                <li>禁止恶意破坏他人建筑（后台有详尽的方块交互记录）。</li>
+                <li>禁止盒相关讨论。</li>
             </ul>
             <br>
             <p>遇到任何问题，请在 QQ 群内联系管理员。祝你游戏愉快！</p>
@@ -436,9 +436,23 @@
         }
     }
     
-    // 粒子动画循环
+// 粒子动画循环
     function animateParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空上一帧
         for (let i = 0; i < particlesArray.length; i++) {
             particlesArray[i].update();
             particlesArray[i].draw();
+        }
+        requestAnimationFrame(animateParticles); // 浏览器优化刷新
+    }
+
+    // --- 页面加载完成执行 ---
+    window.onload = () => {
+        fetchServerStatus();
+        initParticles();
+        animateParticles();
+    };
+</script>
+
+</body>
+</html>
