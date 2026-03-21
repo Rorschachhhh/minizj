@@ -12,231 +12,63 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: url('111.png') no-repeat center center/cover;
-            color: #fff;
-            overflow: hidden; 
-        }
-
-        /* 🚀 终极优化 1：底层画布，用于绘制粒子 */
-        #particles-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0; /* 放在最底层 */
-            pointer-events: none; /* 防止挡住鼠标点击 */
-        }
-
-        @keyframes fadeUpIn {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .glass-panel {
-            max-width: 550px;
-            width: 85%;
-            background: rgba(10, 10, 15, 0.2); 
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.2); 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            padding: 40px 30px;
-            border-radius: 20px;
-            text-align: center;
-            position: relative; 
-            z-index: 10; /* 确保面板在粒子上方 */
-            animation: fadeUpIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-
-        h1 { 
-            margin-top: 0;
-            font-size: 2.2em;
-            letter-spacing: 3px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-            margin-bottom: 25px;
-        }
-
-        /* ================= 动态状态与头像墙区 ================= */
-        .status-wrapper {
-            margin-bottom: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            color: #4ade80;
-            font-size: 0.9em;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(0,0,0,0.5);
-            margin-bottom: 10px;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            background-color: #4ade80;
-            border-radius: 50%;
-            margin-right: 8px;
-            box-shadow: 0 0 12px #4ade80;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.4; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
-            100% { opacity: 0.4; transform: scale(0.8); }
-        }
-
-        /* 🚀 终极优化 2：玩家头像堆叠效果 */
-        .avatar-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 36px;
-        }
-        .player-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px; /* 方形圆角头像 */
-            border: 2px solid rgba(255,255,255,0.3);
-            margin-left: -8px; /* 头像互相堆叠覆盖 */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            background-color: rgba(0,0,0,0.5);
-        }
+        body { font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif; margin: 0; padding: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; background: url('111.png') no-repeat center center/cover; color: #fff; overflow: hidden; perspective: 1000px; }
+        #particles-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        @keyframes fadeUpIn { 0% { opacity: 0; transform: translateY(30px) rotateX(0) rotateY(0); } 100% { opacity: 1; transform: translateY(0) rotateX(0) rotateY(0); } }
+        @keyframes earthquake { 0% { transform: translate(2px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+        .shake-screen { animation: earthquake 0.5s; }
+        .easter-egg-loot { position: fixed; z-index: 9999; pointer-events: none; user-select: none; transition: top 3s cubic-bezier(0.55, 0.085, 0.68, 0.53), transform 3s linear; }
+        
+        .glass-panel { max-width: 550px; width: 85%; background: rgba(10, 10, 15, 0.2); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 25px 50px rgba(0,0,0,0.5); padding: 40px 30px; border-radius: 20px; text-align: center; position: relative; z-index: 10; animation: fadeUpIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; transform-style: preserve-3d; }
+        h1 { margin-top: 0; font-size: 2.2em; letter-spacing: 3px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 25px; transform: translateZ(30px); }
+        .status-wrapper { margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; transform: translateZ(20px); }
+        .status-indicator { display: flex; align-items: center; color: #4ade80; font-size: 0.9em; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.5); margin-bottom: 10px; }
+        .dot { width: 8px; height: 8px; background-color: #4ade80; border-radius: 50%; margin-right: 8px; box-shadow: 0 0 12px #4ade80; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.4; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0.4; transform: scale(0.8); } }
+        .avatar-container { display: flex; justify-content: center; align-items: center; height: 36px; }
+        .player-avatar { width: 32px; height: 32px; border-radius: 6px; border: 2px solid rgba(255,255,255,0.3); margin-left: -8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: all 0.3s ease; cursor: pointer; background-color: rgba(0,0,0,0.5); }
         .player-avatar:first-child { margin-left: 0; }
-        .player-avatar:hover {
-            transform: translateY(-5px) scale(1.1);
-            z-index: 5;
-            border-color: #60a5fa;
-        }
-        .avatar-more {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            background: rgba(0,0,0,0.6);
-            border: 2px solid rgba(255,255,255,0.2);
-            margin-left: -8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.8em;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
-        /* ================= 信息与提示卡片 ================= */
-        .info-box {
-            background: rgba(0, 0, 0, 0.3); 
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-        .info-box:hover {
-            border-color: rgba(96, 165, 250, 0.4); 
-            background: rgba(96, 165, 250, 0.05);
-        }
+        .player-avatar:hover { transform: translateY(-5px) scale(1.1); z-index: 5; border-color: #60a5fa; }
+        .avatar-more { width: 32px; height: 32px; border-radius: 6px; background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.2); margin-left: -8px; display: flex; justify-content: center; align-items: center; font-size: 0.8em; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .info-box { background: rgba(0, 0, 0, 0.3); padding: 15px 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; transform: translateZ(15px); }
+        .info-box:hover { border-color: rgba(96, 165, 250, 0.4); background: rgba(96, 165, 250, 0.05); }
         .info-title { color: #aaa; font-size: 0.85em; margin-bottom: 8px; display: block; }
         .info-box i, .server-tips i { margin-right: 8px; color: rgba(255, 255, 255, 0.7); }
-        .ip-text {
-            color: #60a5fa; font-size: 1.3em; font-family: 'Fira Code', monospace;
-            font-weight: bold; cursor: pointer; display: inline-block; transition: color 0.3s;
-        }
+        .ip-text { color: #60a5fa; font-size: 1.3em; font-family: 'Fira Code', monospace; font-weight: bold; cursor: pointer; display: inline-block; transition: color 0.3s; }
         .ip-text:hover { color: #93c5fd; }
         .hint-text { display: block; font-size: 0.8em; color: #888; margin-top: 5px; }
-
-        .server-tips {
-            background: rgba(250, 204, 21, 0.05); border: 1px dashed rgba(250, 204, 21, 0.2);
-            color: #fef08a; padding: 10px 15px; border-radius: 8px; font-size: 0.85em;
-            margin-bottom: 25px; line-height: 1.5; text-align: left; 
-        }
+        .server-tips { background: rgba(250, 204, 21, 0.05); border: 1px dashed rgba(250, 204, 21, 0.2); color: #fef08a; padding: 10px 15px; border-radius: 8px; font-size: 0.85em; margin-bottom: 25px; line-height: 1.5; text-align: left; transform: translateZ(10px); }
         .server-tips i { color: #facc15; }
-
-        /* ================= 按钮区域 ================= */
-        .action-buttons { display: flex; flex-direction: column; gap: 12px; }
-        .btn {
-            display: block; width: 100%; box-sizing: border-box; padding: 14px 20px;
-            color: #fff; text-decoration: none; border-radius: 10px; font-weight: bold;
-            font-size: 1.05em; cursor: pointer; border: none; transition: all 0.3s ease;
-            position: relative; overflow: hidden;
-        }
+        .action-buttons { display: flex; flex-direction: column; gap: 12px; transform: translateZ(20px); }
+        .btn { display: block; width: 100%; box-sizing: border-box; padding: 14px 20px; color: #fff; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 1.05em; cursor: pointer; border: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
         .btn i { margin-right: 10px; font-size: 1.1em; position: relative; z-index: 2; }
-        
-        /* 按钮流光特效 */
-        .btn::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg); z-index: 1; transition: all 0.5s ease;
-        }
+        .btn::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); z-index: 1; transition: all 0.5s ease; }
         .btn:hover::after { left: 200%; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        
+        .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
         .btn-download { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
         .btn-qq { background: linear-gradient(135deg, #f43f5e, #be123c); }
-        /* 🚀 新增紫色的规则按钮 */
         .btn-rule { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-        
         .btn-download span, .btn-qq span, .btn-rule span { position: relative; z-index: 2; }
-
-        /* 🚀 终极优化 3：毛玻璃弹窗 (模态框) ================= */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* 暗色遮罩 */
-            backdrop-filter: blur(10px); /* 遮罩毛玻璃 */
-            z-index: 999; /* 保证弹窗在最最最上层 */
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: all 0.3s ease;
-        }
-        /* 激活状态的弹窗 */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); z-index: 999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        
-        .modal-content {
-            background: rgba(20, 20, 25, 0.8);
-            border: 1px solid rgba(255,255,255,0.1);
-            width: 85%; max-width: 600px; padding: 30px; border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            position: relative;
-            transform: scale(0.8) translateY(30px);
-            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            text-align: left;
-        }
+        .modal-content { background: rgba(20, 20, 25, 0.8); border: 1px solid rgba(255,255,255,0.1); width: 85%; max-width: 600px; padding: 30px; border-radius: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.8); position: relative; transform: scale(0.8) translateY(30px); transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); text-align: left; }
         .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
-        
-        .close-btn {
-            position: absolute; top: 20px; right: 25px; font-size: 1.5em;
-            color: #888; cursor: pointer; transition: color 0.3s;
-        }
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 1.5em; color: #888; cursor: pointer; transition: color 0.3s; }
         .close-btn:hover { color: #f43f5e; }
-        
-        /* 弹窗内的滚动文本区 */
-        .modal-text {
-            max-height: 50vh; overflow-y: auto; margin-top: 20px;
-            color: #ddd; line-height: 1.8; font-size: 0.95em; padding-right: 10px;
-        }
-        /* 滚动条美化 */
+        .modal-text { max-height: 50vh; overflow-y: auto; margin-top: 20px; color: #ddd; line-height: 1.8; font-size: 0.95em; padding-right: 10px; }
         .modal-text::-webkit-scrollbar { width: 6px; }
         .modal-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
-
+        
+        /* 🚀 专属彩蛋提示文字样式 */
+        .easter-egg-hint { margin-top: 25px; font-size: 0.75em; color: rgba(255,255,255,0.4); transform: translateZ(5px); transition: color 0.3s; }
+        .easter-egg-hint:hover { color: rgba(255,255,255,0.8); }
     </style>
 </head>
-<body>
+<body id="main-body">
 
 <canvas id="particles-canvas"></canvas>
 
-<div class="glass-panel">
+<div class="glass-panel" id="tilt-panel">
     <h1>Asoul吧服务器</h1>
     
     <div class="status-wrapper">
@@ -269,40 +101,36 @@
         </button>
     </div>
     
-    <p style="margin-top: 30px; font-size: 0.8em; color: rgba(255,255,255,0.3);">
+    <div id="hint-text" class="easter-egg-hint">正在识别设备获取神秘暗号...</div>
+
+    <p style="margin-top: 10px; font-size: 0.8em; color: rgba(255,255,255,0.3); transform: translateZ(5px);">
         防失联专属发布页 · 请按 Ctrl+D 收藏本站
     </p>
 </div>
 
 <div id="rule-modal" class="modal-overlay" onclick="closeModalOutside(event)">
-    <div class="modal-content glass-panel">
+    <div class="modal-content glass-panel" style="transform: none; animation: none;">
         <span class="close-btn" onclick="closeModal()"><i class="fas fa-times"></i></span>
         <h2 style="margin-top:0; color:#fff; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:15px;">📜 服务器公约与玩法</h2>
-        
         <div class="modal-text">
-            <p><strong>👋 欢迎来到 Asoul吧专属服务器！</strong>为了大家能有一个良好的游戏环境，请仔细阅读以下条款：</p>
-            <br>
-            <p><strong style="color:#60a5fa;">【核心玩法】</strong></p>
+            <p><strong>👋 欢迎来到 Asoul吧专属服务器！</strong>为了大家能有一个良好的游戏环境，请仔细阅读以下条款：</p><br>
+            <p><strong style="color:#c084fc;">【三大子服架构】</strong></p>
             <ul>
-                <li>本服为 1.21.11 原版生存，主打养老、建筑与红石。</li>
-                <li>死亡不掉落已开启，请放心探险。</li>
-                <li>服务器没有正版验证，正版盗版均可加入。</li>
-            </ul>
-            <br>
+                <li><strong>🌲 生存服（日常服）：</strong>大家平时的主要聚集地，主打原版生存、养老、建筑与红石。</li>
+                <li><strong>🎮 小游戏服（活动服）：</strong>欢乐派对中心，会不定期举办充满节目效果的群友团建活动！</li>
+                <li><strong>🏗️ 创造服（测试服）：</strong>拥有无限资源的自由沙盒，供你随心所欲地测试红石或尽情建造。</li>
+            </ul><br>
+            <p><strong style="color:#60a5fa;">【核心生存设定】</strong></p>
+            <ul><li>本服为 1.21.11 原版生存环境。</li><li>死亡不掉落已开启，请放心探险。</li><li>服务器没有正版验证，正版盗版均可加入。</li></ul><br>
             <p><strong style="color:#f43f5e;">【严厉禁止】</strong></p>
-            <ul>
-                <li>禁飞天、杀戮光环等，一经发现警告一次。</li>
-                <li>禁止恶意破坏他人建筑（后台有详尽的方块交互记录）。</li>
-                <li>禁止盒相关讨论。</li>
-            </ul>
-            <br>
+            <ul><li>禁止飞天、杀戮光环，一经发现警告一次。</li><li>禁止恶意破坏他人建筑。</li><li>禁止盒相关。</li></ul><br>
             <p>遇到任何问题，请在 QQ 群内联系管理员。祝你游戏愉快！</p>
         </div>
     </div>
 </div>
 
 <script>
-    // --- 1. 复制与交互功能 ---
+    // --- 1. 复制与弹窗逻辑 ---
     function copyIP() {
         const ipText = "ai.rainplay.cn:23402";
         navigator.clipboard.writeText(ipText).then(() => {
@@ -327,130 +155,167 @@
         });
     }
 
-    // --- 2. 弹窗控制逻辑 ---
-    function openModal() {
-        document.getElementById('rule-modal').classList.add('active');
-    }
-    function closeModal() {
-        document.getElementById('rule-modal').classList.remove('active');
-    }
-    // 点击黑色的遮罩背景也能关掉弹窗
-    function closeModalOutside(event) {
-        if (event.target.id === 'rule-modal') { closeModal(); }
-    }
+    function openModal() { document.getElementById('rule-modal').classList.add('active'); }
+    function closeModal() { document.getElementById('rule-modal').classList.remove('active'); }
+    function closeModalOutside(event) { if (event.target.id === 'rule-modal') { closeModal(); } }
 
-    // --- 3. 高级功能：服务器状态与玩家头像抓取 ---
+    // --- 2. 状态抓取逻辑 ---
     async function fetchServerStatus() {
         const statusText = document.getElementById('status-text');
         const statusDot = document.getElementById('status-dot');
         const avatarContainer = document.getElementById('avatar-container');
         const apiUrl = 'https://api.mcsrvstat.us/2/ai.rainplay.cn:23402';
-
         try {
             const response = await fetch(apiUrl);
             const data = await response.json();
-
             if (data.online) {
                 statusText.innerHTML = `ONLINE | 在线人数: <strong style="color:#fff;">${data.players.online}</strong> / ${data.players.max}`;
-                statusDot.style.backgroundColor = "#4ade80"; 
-                statusDot.style.boxShadow = "0 0 12px #4ade80";
-
-                // 处理玩家头像 (如果有玩家在线，且服务器开启了查询)
+                statusDot.style.backgroundColor = "#4ade80"; statusDot.style.boxShadow = "0 0 12px #4ade80";
                 if (data.players.list && data.players.list.length > 0) {
                     let avatarHtml = '';
-                    // 最多只显示前 8 个人的头像，防止挤爆屏幕
                     const displayCount = Math.min(data.players.list.length, 8);
-                    
                     for (let i = 0; i < displayCount; i++) {
                         const playerName = data.players.list[i];
-                        // 引用正版皮肤头像库
                         avatarHtml += `<img src="https://mc-heads.net/avatar/${playerName}/32" class="player-avatar" title="${playerName}" alt="${playerName}">`;
                     }
-                    // 如果人数超过8个，显示一个 "+N" 的圆圈
-                    if (data.players.online > 8) {
-                        avatarHtml += `<div class="avatar-more">+${data.players.online - 8}</div>`;
-                    }
+                    if (data.players.online > 8) { avatarHtml += `<div class="avatar-more">+${data.players.online - 8}</div>`; }
                     avatarContainer.innerHTML = avatarHtml;
                 } else if (data.players.online > 0) {
-                     // 如果有人在线但 API 没给名字，不显示头像
                      avatarContainer.innerHTML = `<span style="font-size:0.8em; color:#888;">(服务器未公开玩家列表)</span>`;
                 }
-
             } else {
-                statusText.innerText = "OFFLINE | 服务器维护中";
-                statusText.style.color = "#ef4444"; 
-                statusDot.style.backgroundColor = "#ef4444"; 
-                statusDot.style.boxShadow = "0 0 12px #ef4444";
-                avatarContainer.innerHTML = ''; // 离线不显示头像
+                statusText.innerText = "OFFLINE | 服务器维护中"; statusText.style.color = "#ef4444"; 
+                statusDot.style.backgroundColor = "#ef4444"; statusDot.style.boxShadow = "0 0 12px #ef4444";
+                avatarContainer.innerHTML = ''; 
             }
-        } catch (error) {
-            statusText.innerText = "ERROR | 状态连接超时";
-        }
+        } catch (error) { statusText.innerText = "ERROR | 状态连接超时"; }
     }
 
-    // --- 4. 极致视觉：动态光尘粒子引擎 ---
+    // --- 3. 光尘粒子引擎 ---
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
-    
-    // 自动调整画布大小
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
-
-    // 粒子类定义
     const particlesArray = [];
     class Particle {
         constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 0.5; // 粒子大小
-            this.speedX = Math.random() * 1 - 0.5; // 水平漂移速度
-            this.speedY = Math.random() * -1.5 - 0.5; // 向上漂浮速度
-            // 粒子的颜色：金黄色光尘，带透明度
+            this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 0.5; this.speedX = Math.random() * 1 - 0.5; this.speedY = Math.random() * -1.5 - 0.5; 
             this.color = `rgba(253, 224, 71, ${Math.random() * 0.5 + 0.1})`; 
         }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            // 飘出屏幕顶部后，从底部重新生成
-            if (this.y < 0) {
-                this.y = canvas.height;
-                this.x = Math.random() * canvas.width;
-            }
-        }
-        draw() {
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
+        update() { this.x += this.speedX; this.y += this.speedY; if (this.y < 0) { this.y = canvas.height; this.x = Math.random() * canvas.width; } }
+        draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
     }
-
-    // 生成50个粒子
-    function initParticles() {
-        for (let i = 0; i < 50; i++) {
-            particlesArray.push(new Particle());
-        }
-    }
-    
-// 粒子动画循环
+    function initParticles() { for (let i = 0; i < 50; i++) { particlesArray.push(new Particle()); } }
     function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空上一帧
-        for (let i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].update();
-            particlesArray[i].draw();
-        }
-        requestAnimationFrame(animateParticles); // 浏览器优化刷新
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); particlesArray[i].draw(); }
+        requestAnimationFrame(animateParticles); 
     }
 
-    // --- 页面加载完成执行 ---
+    // --- 4. 3D 悬浮视差响应 ---
+    const panel = document.getElementById('tilt-panel');
+    document.addEventListener('mousemove', (e) => {
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 45; 
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
+        panel.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        panel.style.boxShadow = `${-xAxis}px ${yAxis}px 50px rgba(0,0,0,0.5)`;
+    });
+    document.addEventListener('mouseleave', () => {
+        panel.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
+        panel.style.boxShadow = `0 25px 50px rgba(0,0,0,0.5)`;
+    });
+
+    // --- 🚀 5. 终极彩蛋核心引擎 (包含设备识别) ---
+    function triggerEasterEgg() {
+        const body = document.getElementById('main-body');
+        body.classList.add('shake-screen');
+        setTimeout(() => { body.classList.remove('shake-screen'); }, 500);
+
+        for(let i = 0; i < 40; i++) {
+            setTimeout(createLoot, i * 60); 
+        }
+    }
+
+    function createLoot() {
+        const loot = document.createElement('div');
+        const items = ['🐮', '🍬', '🍦', '⭐']; 
+        loot.innerText = items[Math.floor(Math.random() * items.length)];
+        loot.className = 'easter-egg-loot';
+        loot.style.left = Math.random() * 95 + 'vw';
+        loot.style.top = '-50px'; 
+        loot.style.fontSize = (Math.random() * 20 + 25) + 'px';
+        loot.style.filter = 'drop-shadow(0 5px 10px rgba(0,0,0,0.5))'; 
+        
+        document.body.appendChild(loot);
+
+        setTimeout(() => {
+            loot.style.top = '120vh'; 
+            loot.style.transform = `rotate(${Math.random() * 720}deg)`; 
+        }, 50);
+
+        setTimeout(() => { loot.remove(); }, 3000);
+    }
+
+    // 🚀 初始化设备环境与绑定监听
+    function setupEasterEggTrigger() {
+        const hintText = document.getElementById('hint-text');
+        // 检测是否为移动端设备
+        const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            // ================= 📱 手机端：终极次点击逻辑 =================
+            hintText.innerText = "💡 尝试连续点击屏幕空白处 3 次 (终极次) 召唤惊喜";
+            
+            let tapCount = 0;
+            let tapTimer;
+
+            document.addEventListener('click', (e) => {
+                // 如果点击的是按钮、弹窗或者信息框，则不计入次数，防止误触
+                if (e.target.closest('.btn') || e.target.closest('.info-box') || e.target.closest('.close-btn')) {
+                    return; 
+                }
+
+                tapCount++;
+                clearTimeout(tapTimer);
+
+                if (tapCount === 3) {
+                    triggerEasterEgg();
+                    tapCount = 0; // 触发后清零
+                } else {
+                    // 如果 1.2 秒内没有点够 3 次，就重新计数
+                    tapTimer = setTimeout(() => { tapCount = 0; }, 1200);
+                }
+            });
+
+        } else {
+            // ================= 💻 电脑端：A S O U L 键盘逻辑 =================
+            hintText.innerText = "💡 尝试在键盘上依次输入 A S O U L 召唤惊喜";
+            
+            const secretCode = ['a', 's', 'o', 'u', 'l']; 
+            let keyIndex = 0;
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key.toLowerCase() === secretCode[keyIndex]) {
+                    keyIndex++;
+                    if (keyIndex === secretCode.length) {
+                        triggerEasterEgg();
+                        keyIndex = 0; 
+                    }
+                } else {
+                    keyIndex = 0; 
+                }
+            });
+        }
+    }
+
+    // --- 初始化执行 ---
     window.onload = () => {
         fetchServerStatus();
         initParticles();
         animateParticles();
+        setupEasterEggTrigger(); // 激活彩蛋检测
     };
 </script>
 
