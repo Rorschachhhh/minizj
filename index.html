@@ -11,6 +11,8 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+    
     <style>
         body { font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif; margin: 0; padding: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; background: url('https://cdn.jsdelivr.net/gh/Rorschachhhh/minizj@main/111.png') no-repeat center center/cover; color: #fff; overflow: hidden; perspective: 1000px; }
         #particles-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
@@ -58,10 +60,29 @@
         .modal-text { max-height: 50vh; overflow-y: auto; margin-top: 20px; color: #ddd; line-height: 1.8; font-size: 0.95em; padding-right: 10px; }
         .modal-text::-webkit-scrollbar { width: 6px; }
         .modal-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
-        
-        /* 🚀 专属彩蛋提示文字样式 */
         .easter-egg-hint { margin-top: 25px; font-size: 0.75em; color: rgba(255,255,255,0.4); transform: translateZ(5px); transition: color 0.3s; }
         .easter-egg-hint:hover { color: rgba(255,255,255,0.8); }
+
+        /* 下载选项卡片样式 */
+        .dl-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 12px; text-align: center; transition: all 0.3s ease; }
+        .dl-card:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.3); }
+        
+        /* 蓝奏云卡片样式 (绿色系) */
+        .dl-card-lanzou { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
+        .dl-card-lanzou:hover { border-color: rgba(16, 185, 129, 0.6); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2); }
+        
+        /* 百度网盘卡片样式 (蓝色系) */
+        .dl-card-baidu { background: rgba(6, 167, 255, 0.1); border-color: rgba(6, 167, 255, 0.3); }
+        .dl-card-baidu:hover { border-color: rgba(6, 167, 255, 0.6); box-shadow: 0 5px 15px rgba(6, 167, 255, 0.2); }
+
+        /* APlayer 毛玻璃暗黑风格适配 */
+        .aplayer { background: rgba(20, 20, 25, 0.8) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; color: #fff !important; border-radius: 10px !important; }
+        .aplayer .aplayer-info .aplayer-music .aplayer-title { color: #fff !important; }
+        .aplayer .aplayer-info .aplayer-music .aplayer-author { color: #aaa !important; }
+        .aplayer .aplayer-list ol li { border-top: 1px solid rgba(255,255,255,0.05) !important; color: #ccc !important; }
+        .aplayer .aplayer-list ol li:hover { background: rgba(255,255,255,0.1) !important; }
+        .aplayer .aplayer-list ol li.aplayer-list-light { background: rgba(96, 165, 250, 0.2) !important; color: #60a5fa !important; }
+        .aplayer .aplayer-lrc p { color: #fff !important; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
     </style>
 </head>
 <body id="main-body">
@@ -90,9 +111,9 @@
     </div>
 
     <div class="action-buttons">
-        <a href="https://gh-proxy.com/https://github.com/Rorschachhhh/minizj/releases/download/v1.0.0/default.zip" class="btn btn-download" target="_blank">
+        <button class="btn btn-download" onclick="openDownloadModal()">
             <span><i class="fas fa-download"></i>下载推荐整合包 (非必选)</span>
-        </a>
+        </button>
         <button class="btn btn-qq" onclick="copyQQ()" id="qq-btn">
             <span><i class="fab fa-qq"></i>一键复制 QQ 群号 (1036428799)</span>
         </button>
@@ -106,6 +127,33 @@
     <p style="margin-top: 10px; font-size: 0.8em; color: rgba(255,255,255,0.3); transform: translateZ(5px);">
         防失联专属发布页 · 请按 Ctrl+D 收藏本站
     </p>
+</div>
+
+<div id="download-modal" class="modal-overlay" onclick="closeDownloadModalOutside(event)">
+    <div class="modal-content glass-panel" style="transform: none; animation: none;">
+        <span class="close-btn" onclick="closeDownloadModal()"><i class="fas fa-times"></i></span>
+        <h2 style="margin-top:0; color:#fff; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:15px;">📥 选择下载方式</h2>
+        
+        <div class="modal-text" style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+            
+            <div class="dl-card dl-card-lanzou">
+                <h3 style="margin-top:0; color:#10b981;"><i class="fas fa-bolt"></i> 蓝奏云直链下载 (推荐)</h3>
+                <p style="font-size: 0.9em; color: #ddd;">免登录，不限速，点击即下体验极佳。</p>
+                <a href="https://wwbga.lanzoup.com/iqQfG3l87yhg" target="_blank" class="btn" style="background: linear-gradient(135deg, #10b981, #059669); margin-top: 15px; width: 100%; box-sizing: border-box; box-shadow: none;">
+                    <span><i class="fas fa-external-link-alt"></i> 前往蓝奏云极速下载</span>
+                </a>
+            </div>
+
+            <div class="dl-card dl-card-baidu">
+                <h3 style="margin-top:0; color:#06a7ff;"><i class="fas fa-cloud"></i> 百度网盘下载 (备用)</h3>
+                <p style="font-size: 0.9em; color: #888;">提取码：<strong style="color: #ccc; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px; letter-spacing: 1px;">asou</strong></p>
+                <button onclick="downloadBaidu()" class="btn" style="background: rgba(6, 167, 255, 0.2); border: 1px solid rgba(6, 167, 255, 0.4); margin-top: 15px; width: 100%; box-shadow: none; color: #60a5fa;">
+                    <span id="baidu-btn-text"><i class="fas fa-copy"></i> 复制提取码并前往网盘</span>
+                </button>
+            </div>
+            
+        </div>
+    </div>
 </div>
 
 <div id="rule-modal" class="modal-overlay" onclick="closeModalOutside(event)">
@@ -129,8 +177,23 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+<meting-js
+    server="netease"
+    type="playlist"
+    id="17847905126"
+    fixed="true"
+    autoplay="false"
+    loop="all"
+    order="list"
+    preload="auto"
+    list-folded="true"
+    list-max-height="400px"
+    lrc-type="0">
+</meting-js>
+
 <script>
-    // --- 1. 复制与弹窗逻辑 ---
     function copyIP() {
         const ipText = "ai.rainplay.cn:23402";
         navigator.clipboard.writeText(ipText).then(() => {
@@ -159,7 +222,23 @@
     function closeModal() { document.getElementById('rule-modal').classList.remove('active'); }
     function closeModalOutside(event) { if (event.target.id === 'rule-modal') { closeModal(); } }
 
-    // --- 2. 状态抓取逻辑 ---
+    function openDownloadModal() { document.getElementById('download-modal').classList.add('active'); }
+    function closeDownloadModal() { document.getElementById('download-modal').classList.remove('active'); }
+    function closeDownloadModalOutside(event) { if (event.target.id === 'download-modal') { closeDownloadModal(); } }
+
+    function downloadBaidu() {
+        const code = "asou";
+        navigator.clipboard.writeText(code).then(() => {
+            const btnText = document.getElementById("baidu-btn-text");
+            const originalText = btnText.innerHTML;
+            btnText.innerHTML = `<i class="fas fa-check"></i> 提取码复制成功！正在跳转...`;
+            setTimeout(() => {
+                window.open("https://pan.baidu.com/s/1P-pZ5d6dHFNuR1ixjknoEQ", "_blank");
+                btnText.innerHTML = originalText; 
+            }, 800);
+        });
+    }
+
     async function fetchServerStatus() {
         const statusText = document.getElementById('status-text');
         const statusDot = document.getElementById('status-dot');
@@ -191,7 +270,6 @@
         } catch (error) { statusText.innerText = "ERROR | 状态连接超时"; }
     }
 
-    // --- 3. 光尘粒子引擎 ---
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
     function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -214,7 +292,6 @@
         requestAnimationFrame(animateParticles); 
     }
 
-    // --- 4. 3D 悬浮视差响应 ---
     const panel = document.getElementById('tilt-panel');
     document.addEventListener('mousemove', (e) => {
         const xAxis = (window.innerWidth / 2 - e.pageX) / 45; 
@@ -227,15 +304,11 @@
         panel.style.boxShadow = `0 25px 50px rgba(0,0,0,0.5)`;
     });
 
-    // --- 🚀 5. 终极彩蛋核心引擎 (包含设备识别) ---
     function triggerEasterEgg() {
         const body = document.getElementById('main-body');
         body.classList.add('shake-screen');
         setTimeout(() => { body.classList.remove('shake-screen'); }, 500);
-
-        for(let i = 0; i < 40; i++) {
-            setTimeout(createLoot, i * 60); 
-        }
+        for(let i = 0; i < 40; i++) { setTimeout(createLoot, i * 60); }
     }
 
     function createLoot() {
@@ -247,75 +320,50 @@
         loot.style.top = '-50px'; 
         loot.style.fontSize = (Math.random() * 20 + 25) + 'px';
         loot.style.filter = 'drop-shadow(0 5px 10px rgba(0,0,0,0.5))'; 
-        
         document.body.appendChild(loot);
-
         setTimeout(() => {
             loot.style.top = '120vh'; 
             loot.style.transform = `rotate(${Math.random() * 720}deg)`; 
         }, 50);
-
         setTimeout(() => { loot.remove(); }, 3000);
     }
 
-    // 🚀 初始化设备环境与绑定监听
     function setupEasterEggTrigger() {
         const hintText = document.getElementById('hint-text');
-        // 检测是否为移动端设备
         const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
         if (isMobile) {
-            // ================= 📱 手机端：终极次点击逻辑 =================
             hintText.innerText = "💡 尝试连续点击屏幕空白处 3 次 (终极次) 召唤惊喜";
-            
             let tapCount = 0;
             let tapTimer;
-
             document.addEventListener('click', (e) => {
-                // 如果点击的是按钮、弹窗或者信息框，则不计入次数，防止误触
-                if (e.target.closest('.btn') || e.target.closest('.info-box') || e.target.closest('.close-btn')) {
+                // 防误触：避开按钮、弹窗和左下角的音乐播放器 (.aplayer)
+                if (e.target.closest('.btn') || e.target.closest('.info-box') || e.target.closest('.close-btn') || e.target.closest('.aplayer') || e.target.closest('.modal-content')) {
                     return; 
                 }
-
                 tapCount++;
                 clearTimeout(tapTimer);
-
-                if (tapCount === 3) {
-                    triggerEasterEgg();
-                    tapCount = 0; // 触发后清零
-                } else {
-                    // 如果 1.2 秒内没有点够 3 次，就重新计数
-                    tapTimer = setTimeout(() => { tapCount = 0; }, 1200);
-                }
+                if (tapCount === 3) { triggerEasterEgg(); tapCount = 0; } 
+                else { tapTimer = setTimeout(() => { tapCount = 0; }, 1200); }
             });
-
         } else {
-            // ================= 💻 电脑端：A S O U L 键盘逻辑 =================
             hintText.innerText = "💡 尝试在键盘上依次输入 A S O U L 召唤惊喜";
-            
             const secretCode = ['a', 's', 'o', 'u', 'l']; 
             let keyIndex = 0;
-            
             document.addEventListener('keydown', (e) => {
                 if (e.key.toLowerCase() === secretCode[keyIndex]) {
                     keyIndex++;
-                    if (keyIndex === secretCode.length) {
-                        triggerEasterEgg();
-                        keyIndex = 0; 
-                    }
-                } else {
-                    keyIndex = 0; 
-                }
+                    if (keyIndex === secretCode.length) { triggerEasterEgg(); keyIndex = 0; }
+                } else { keyIndex = 0; }
             });
         }
     }
 
-    // --- 初始化执行 ---
     window.onload = () => {
         fetchServerStatus();
         initParticles();
         animateParticles();
-        setupEasterEggTrigger(); // 激活彩蛋检测
+        setupEasterEggTrigger();
     };
 </script>
 
