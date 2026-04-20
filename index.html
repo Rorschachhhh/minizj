@@ -1,374 +1,374 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <meta name="referrer" content="no-referrer">
-    
-    <meta property="og:title" content="Asoul吧服务器 | 官方发布页">
-    <meta property="og:description" content="1.21.11 原版生存服务器，纯净直连，无需复杂整合包，快来加入我们吧！">
-    <meta property="og:image" content="111.png">
-    
-    <title>Asoul吧服务器 | 官方发布页</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
-    
-    <style>
-        body { font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif; margin: 0; padding: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; background: url('https://i1.hdslb.com/bfs/new_dyn/fe5838afee7d1a02331e322a8a7729801343210098.png') no-repeat center center/cover; color: #fff; overflow: hidden; perspective: 1000px; }
-        #particles-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        @keyframes fadeUpIn { 0% { opacity: 0; transform: translateY(30px) rotateX(0) rotateY(0); } 100% { opacity: 1; transform: translateY(0) rotateX(0) rotateY(0); } }
-        @keyframes earthquake { 0% { transform: translate(2px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
-        .shake-screen { animation: earthquake 0.5s; }
-        .easter-egg-loot { position: fixed; z-index: 9999; pointer-events: none; user-select: none; transition: top 3s cubic-bezier(0.55, 0.085, 0.68, 0.53), transform 3s linear; }
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        .glass-panel { max-width: 550px; width: 85%; background: rgba(10, 10, 15, 0.2); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 25px 50px rgba(0,0,0,0.5); padding: 40px 30px; border-radius: 20px; text-align: center; position: relative; z-index: 10; animation: fadeUpIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; transform-style: preserve-3d; }
-        h1 { margin-top: 0; font-size: 2.2em; letter-spacing: 3px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 25px; transform: translateZ(30px); }
-        .status-wrapper { margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; transform: translateZ(20px); }
-        .status-indicator { display: flex; align-items: center; color: #4ade80; font-size: 0.9em; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.5); margin-bottom: 10px; }
-        .dot { width: 8px; height: 8px; background-color: #4ade80; border-radius: 50%; margin-right: 8px; box-shadow: 0 0 12px #4ade80; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 0.4; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0.4; transform: scale(0.8); } }
-        .avatar-container { display: flex; justify-content: center; align-items: center; height: 36px; }
-        .player-avatar { width: 32px; height: 32px; border-radius: 6px; border: 2px solid rgba(255,255,255,0.3); margin-left: -8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: all 0.3s ease; cursor: pointer; background-color: rgba(0,0,0,0.5); }
-        .player-avatar:first-child { margin-left: 0; }
-        .player-avatar:hover { transform: translateY(-5px) scale(1.1); z-index: 5; border-color: #60a5fa; }
-        .avatar-more { width: 32px; height: 32px; border-radius: 6px; background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.2); margin-left: -8px; display: flex; justify-content: center; align-items: center; font-size: 0.8em; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .info-box { background: rgba(0, 0, 0, 0.3); padding: 15px 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; transform: translateZ(15px); }
-        .info-box:hover { border-color: rgba(96, 165, 250, 0.4); background: rgba(96, 165, 250, 0.05); }
-        .info-title { color: #aaa; font-size: 0.85em; margin-bottom: 8px; display: block; }
-        .info-box i, .server-tips i { margin-right: 8px; color: rgba(255, 255, 255, 0.7); }
-        .ip-text { color: #60a5fa; font-size: 1.3em; font-family: 'Fira Code', monospace; font-weight: bold; cursor: pointer; display: inline-block; transition: color 0.3s; }
-        .ip-text:hover { color: #93c5fd; }
-        .hint-text { display: block; font-size: 0.8em; color: #888; margin-top: 5px; }
-        .server-tips { background: rgba(250, 204, 21, 0.05); border: 1px dashed rgba(250, 204, 21, 0.2); color: #fef08a; padding: 10px 15px; border-radius: 8px; font-size: 0.85em; margin-bottom: 25px; line-height: 1.5; text-align: left; transform: translateZ(10px); }
-        .server-tips i { color: #facc15; }
-        .action-buttons { display: flex; flex-direction: column; gap: 12px; transform: translateZ(20px); }
-        .btn { display: block; width: 100%; box-sizing: border-box; padding: 14px 20px; color: #fff; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 1.05em; cursor: pointer; border: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .btn i { margin-right: 10px; font-size: 1.1em; position: relative; z-index: 2; }
-        .btn::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); z-index: 1; transition: all 0.5s ease; }
-        .btn:hover::after { left: 200%; }
-        .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        .btn-download { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-        .btn-qq { background: linear-gradient(135deg, #f43f5e, #be123c); }
-        .btn-rule { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-        .btn-download span, .btn-qq span, .btn-rule span { position: relative; z-index: 2; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); z-index: 999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-content { background: rgba(20, 20, 25, 0.8); border: 1px solid rgba(255,255,255,0.1); width: 85%; max-width: 600px; padding: 30px; border-radius: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.8); position: relative; transform: scale(0.8) translateY(30px); transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); text-align: left; }
-        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
-        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 1.5em; color: #888; cursor: pointer; transition: color 0.3s; }
-        .close-btn:hover { color: #f43f5e; }
-        .modal-text { max-height: 50vh; overflow-y: auto; margin-top: 20px; color: #ddd; line-height: 1.8; font-size: 0.95em; padding-right: 10px; }
-        .modal-text::-webkit-scrollbar { width: 6px; }
-        .modal-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
-        .easter-egg-hint { margin-top: 25px; font-size: 0.75em; color: rgba(255,255,255,0.4); transform: translateZ(5px); transition: color 0.3s; }
-        .easter-egg-hint:hover { color: rgba(255,255,255,0.8); }
-
-        /* 下载选项卡片样式 */
-        .dl-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 12px; text-align: center; transition: all 0.3s ease; }
-        .dl-card:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.3); }
+        <meta name="referrer" content="no-referrer">
         
-        /* 蓝奏云卡片样式 (绿色系) */
-        .dl-card-lanzou { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
-        .dl-card-lanzou:hover { border-color: rgba(16, 185, 129, 0.6); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2); }
+        <meta property="og:title" content="Asoul吧服务器 | 官方发布页">
+        <meta property="og:description" content="1.21.11 原版生存服务器，纯净直连，无需复杂整合包，快来加入我们吧！">
+        <meta property="og:image" content="111.png">
         
-        /* 百度网盘卡片样式 (蓝色系) */
-        .dl-card-baidu { background: rgba(6, 167, 255, 0.1); border-color: rgba(6, 167, 255, 0.3); }
-        .dl-card-baidu:hover { border-color: rgba(6, 167, 255, 0.6); box-shadow: 0 5px 15px rgba(6, 167, 255, 0.2); }
-
-        /* APlayer 毛玻璃暗黑风格适配 */
-        .aplayer { background: rgba(20, 20, 25, 0.8) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; color: #fff !important; border-radius: 10px !important; }
-        .aplayer .aplayer-info .aplayer-music .aplayer-title { color: #fff !important; }
-        .aplayer .aplayer-info .aplayer-music .aplayer-author { color: #aaa !important; }
-        .aplayer .aplayer-list ol li { border-top: 1px solid rgba(255,255,255,0.05) !important; color: #ccc !important; }
-        .aplayer .aplayer-list ol li:hover { background: rgba(255,255,255,0.1) !important; }
-        .aplayer .aplayer-list ol li.aplayer-list-light { background: rgba(96, 165, 250, 0.2) !important; color: #60a5fa !important; }
-        .aplayer .aplayer-lrc p { color: #fff !important; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
-    </style>
-</head>
-<body id="main-body">
-
-<canvas id="particles-canvas"></canvas>
-
-<div class="glass-panel" id="tilt-panel">
-    <h1>Asoul吧服务器</h1>
-    
-    <div class="status-wrapper">
-        <div class="status-indicator">
-            <div class="dot" id="status-dot"></div>
-            <span id="status-text">正在探测服务器状态...</span>
-        </div>
-        <div id="avatar-container" class="avatar-container"></div>
-    </div>
-
-    <div class="info-box">
-        <span class="info-title"><i class="fas fa-satellite-dish"></i>专属直连 IP 地址</span>
-        <span class="ip-text" onclick="copyIP()" id="ip-address">ai.rainplay.cn:23402</span>
-        <span class="hint-text">(点击上方 IP 即可一键复制)</span>
-    </div>
-
-    <div class="server-tips">
-        <strong><i class="fas fa-lightbulb"></i>温馨提示：</strong>本服为原版生存，使用 <strong>1.21.11</strong> 客户端即可直接输入 IP 加入游戏。下方整合包包含部分视觉/辅助模组，非必须下载项。
-    </div>
-
-    <div class="action-buttons">
-        <button class="btn btn-download" onclick="openDownloadModal()">
-            <span><i class="fas fa-download"></i>下载推荐整合包 (非必选)</span>
-        </button>
-        <button class="btn btn-qq" onclick="copyQQ()" id="qq-btn">
-            <span><i class="fab fa-qq"></i>一键复制 QQ 群号 (1036428799)</span>
-        </button>
-        <button class="btn btn-rule" onclick="openModal()">
-            <span><i class="fas fa-book-open"></i>查看服务器玩法与规则</span>
-        </button>
-    </div>
-    
-    <div id="hint-text" class="easter-egg-hint">正在识别设备获取神秘暗号...</div>
-
-    <p style="margin-top: 10px; font-size: 0.8em; color: rgba(255,255,255,0.3); transform: translateZ(5px);">
-        防失联专属发布页 · 请按 Ctrl+D 收藏本站
-    </p>
-</div>
-
-<div id="download-modal" class="modal-overlay" onclick="closeDownloadModalOutside(event)">
-    <div class="modal-content glass-panel" style="transform: none; animation: none;">
-        <span class="close-btn" onclick="closeDownloadModal()"><i class="fas fa-times"></i></span>
-        <h2 style="margin-top:0; color:#fff; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:15px;">📥 选择下载方式</h2>
+        <title>Asoul吧服务器 | 官方发布页</title>
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         
-        <div class="modal-text" style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+        
+        <style>
+            body { font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif; margin: 0; padding: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; background: url('https://i1.hdslb.com/bfs/new_dyn/fe5838afee7d1a02331e322a8a7729801343210098.png') no-repeat center center/cover; color: #fff; overflow: hidden; perspective: 1000px; }
+            #particles-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+            @keyframes fadeUpIn { 0% { opacity: 0; transform: translateY(30px) rotateX(0) rotateY(0); } 100% { opacity: 1; transform: translateY(0) rotateX(0) rotateY(0); } }
+            @keyframes earthquake { 0% { transform: translate(2px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+            .shake-screen { animation: earthquake 0.5s; }
+            .easter-egg-loot { position: fixed; z-index: 9999; pointer-events: none; user-select: none; transition: top 3s cubic-bezier(0.55, 0.085, 0.68, 0.53), transform 3s linear; }
             
-            <div class="dl-card dl-card-lanzou">
-                <h3 style="margin-top:0; color:#10b981;"><i class="fas fa-bolt"></i> 蓝奏云直链下载 (推荐)</h3>
-                <p style="font-size: 0.9em; color: #ddd;">免登录，不限速，点击即下体验极佳。</p>
-                <a href="https://wwbga.lanzoup.com/iqQfG3l87yhg" target="_blank" class="btn" style="background: linear-gradient(135deg, #10b981, #059669); margin-top: 15px; width: 100%; box-sizing: border-box; box-shadow: none;">
-                    <span><i class="fas fa-external-link-alt"></i> 前往蓝奏云极速下载</span>
-                </a>
-            </div>
+            .glass-panel { max-width: 550px; width: 85%; background: rgba(10, 10, 15, 0.2); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 25px 50px rgba(0,0,0,0.5); padding: 40px 30px; border-radius: 20px; text-align: center; position: relative; z-index: 10; animation: fadeUpIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; transform-style: preserve-3d; }
+            h1 { margin-top: 0; font-size: 2.2em; letter-spacing: 3px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 25px; transform: translateZ(30px); }
+            .status-wrapper { margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; transform: translateZ(20px); }
+            .status-indicator { display: flex; align-items: center; color: #4ade80; font-size: 0.9em; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.5); margin-bottom: 10px; }
+            .dot { width: 8px; height: 8px; background-color: #4ade80; border-radius: 50%; margin-right: 8px; box-shadow: 0 0 12px #4ade80; animation: pulse 1.5s infinite; }
+            @keyframes pulse { 0% { opacity: 0.4; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0.4; transform: scale(0.8); } }
+            .avatar-container { display: flex; justify-content: center; align-items: center; height: 36px; }
+            .player-avatar { width: 32px; height: 32px; border-radius: 6px; border: 2px solid rgba(255,255,255,0.3); margin-left: -8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: all 0.3s ease; cursor: pointer; background-color: rgba(0,0,0,0.5); }
+            .player-avatar:first-child { margin-left: 0; }
+            .player-avatar:hover { transform: translateY(-5px) scale(1.1); z-index: 5; border-color: #60a5fa; }
+            .avatar-more { width: 32px; height: 32px; border-radius: 6px; background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.2); margin-left: -8px; display: flex; justify-content: center; align-items: center; font-size: 0.8em; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+            .info-box { background: rgba(0, 0, 0, 0.3); padding: 15px 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; transform: translateZ(15px); }
+            .info-box:hover { border-color: rgba(96, 165, 250, 0.4); background: rgba(96, 165, 250, 0.05); }
+            .info-title { color: #aaa; font-size: 0.85em; margin-bottom: 8px; display: block; }
+            .info-box i, .server-tips i { margin-right: 8px; color: rgba(255, 255, 255, 0.7); }
+            .ip-text { color: #60a5fa; font-size: 1.3em; font-family: 'Fira Code', monospace; font-weight: bold; cursor: pointer; display: inline-block; transition: color 0.3s; }
+            .ip-text:hover { color: #93c5fd; }
+            .hint-text { display: block; font-size: 0.8em; color: #888; margin-top: 5px; }
+            .server-tips { background: rgba(250, 204, 21, 0.05); border: 1px dashed rgba(250, 204, 21, 0.2); color: #fef08a; padding: 10px 15px; border-radius: 8px; font-size: 0.85em; margin-bottom: 25px; line-height: 1.5; text-align: left; transform: translateZ(10px); }
+            .server-tips i { color: #facc15; }
+            .action-buttons { display: flex; flex-direction: column; gap: 12px; transform: translateZ(20px); }
+            .btn { display: block; width: 100%; box-sizing: border-box; padding: 14px 20px; color: #fff; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 1.05em; cursor: pointer; border: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
+            .btn i { margin-right: 10px; font-size: 1.1em; position: relative; z-index: 2; }
+            .btn::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); z-index: 1; transition: all 0.5s ease; }
+            .btn:hover::after { left: 200%; }
+            .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+            .btn-download { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+            .btn-qq { background: linear-gradient(135deg, #f43f5e, #be123c); }
+            .btn-rule { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+            .btn-download span, .btn-qq span, .btn-rule span { position: relative; z-index: 2; }
+            .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); z-index: 999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+            .modal-overlay.active { opacity: 1; visibility: visible; }
+            .modal-content { background: rgba(20, 20, 25, 0.8); border: 1px solid rgba(255,255,255,0.1); width: 85%; max-width: 600px; padding: 30px; border-radius: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.8); position: relative; transform: scale(0.8) translateY(30px); transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); text-align: left; }
+            .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+            .close-btn { position: absolute; top: 20px; right: 25px; font-size: 1.5em; color: #888; cursor: pointer; transition: color 0.3s; }
+            .close-btn:hover { color: #f43f5e; }
+            .modal-text { max-height: 50vh; overflow-y: auto; margin-top: 20px; color: #ddd; line-height: 1.8; font-size: 0.95em; padding-right: 10px; }
+            .modal-text::-webkit-scrollbar { width: 6px; }
+            .modal-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+            .easter-egg-hint { margin-top: 25px; font-size: 0.75em; color: rgba(255,255,255,0.4); transform: translateZ(5px); transition: color 0.3s; }
+            .easter-egg-hint:hover { color: rgba(255,255,255,0.8); }
 
-            <div class="dl-card dl-card-baidu">
-                <h3 style="margin-top:0; color:#06a7ff;"><i class="fas fa-cloud"></i> 百度网盘下载 (备用)</h3>
-                <p style="font-size: 0.9em; color: #888;">提取码：<strong style="color: #ccc; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px; letter-spacing: 1px;">asou</strong></p>
-                <button onclick="downloadBaidu()" class="btn" style="background: rgba(6, 167, 255, 0.2); border: 1px solid rgba(6, 167, 255, 0.4); margin-top: 15px; width: 100%; box-shadow: none; color: #60a5fa;">
-                    <span id="baidu-btn-text"><i class="fas fa-copy"></i> 复制提取码并前往网盘</span>
-                </button>
-            </div>
+            /* 下载选项卡片样式 */
+            .dl-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 12px; text-align: center; transition: all 0.3s ease; }
+            .dl-card:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.3); }
             
+            /* 蓝奏云卡片样式 (绿色系) */
+            .dl-card-lanzou { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
+            .dl-card-lanzou:hover { border-color: rgba(16, 185, 129, 0.6); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2); }
+            
+            /* 百度网盘卡片样式 (蓝色系) */
+            .dl-card-baidu { background: rgba(6, 167, 255, 0.1); border-color: rgba(6, 167, 255, 0.3); }
+            .dl-card-baidu:hover { border-color: rgba(6, 167, 255, 0.6); box-shadow: 0 5px 15px rgba(6, 167, 255, 0.2); }
+
+            /* APlayer 毛玻璃暗黑风格适配 */
+            .aplayer { background: rgba(20, 20, 25, 0.8) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; color: #fff !important; border-radius: 10px !important; }
+            .aplayer .aplayer-info .aplayer-music .aplayer-title { color: #fff !important; }
+            .aplayer .aplayer-info .aplayer-music .aplayer-author { color: #aaa !important; }
+            .aplayer .aplayer-list ol li { border-top: 1px solid rgba(255,255,255,0.05) !important; color: #ccc !important; }
+            .aplayer .aplayer-list ol li:hover { background: rgba(255,255,255,0.1) !important; }
+            .aplayer .aplayer-list ol li.aplayer-list-light { background: rgba(96, 165, 250, 0.2) !important; color: #60a5fa !important; }
+            .aplayer .aplayer-lrc p { color: #fff !important; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+        </style>
+    </head>
+    <body id="main-body">
+
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="glass-panel" id="tilt-panel">
+        <h1>Asoul吧服务器</h1>
+        
+        <div class="status-wrapper">
+            <div class="status-indicator">
+                <div class="dot" id="status-dot"></div>
+                <span id="status-text">正在探测服务器状态...</span>
+            </div>
+            <div id="avatar-container" class="avatar-container"></div>
+        </div>
+
+        <div class="info-box">
+            <span class="info-title"><i class="fas fa-satellite-dish"></i>专属直连 IP 地址</span>
+            <span class="ip-text" onclick="copyIP()" id="ip-address">ai.rainplay.cn:23402</span>
+            <span class="hint-text">(点击上方 IP 即可一键复制)</span>
+        </div>
+
+        <div class="server-tips">
+            <strong><i class="fas fa-lightbulb"></i>温馨提示：</strong>本服为原版生存，使用 <strong>1.21.11</strong> 客户端即可直接输入 IP 加入游戏。下方整合包包含部分视觉/辅助模组，非必须下载项。
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-download" onclick="openDownloadModal()">
+                <span><i class="fas fa-download"></i>下载推荐整合包 (非必选)</span>
+            </button>
+            <button class="btn btn-qq" onclick="copyQQ()" id="qq-btn">
+                <span><i class="fab fa-qq"></i>一键复制 QQ 群号 (483308150)</span>
+            </button>
+            <button class="btn btn-rule" onclick="openModal()">
+                <span><i class="fas fa-book-open"></i>查看服务器玩法与规则</span>
+            </button>
+        </div>
+        
+        <div id="hint-text" class="easter-egg-hint">正在识别设备获取神秘暗号...</div>
+
+        <p style="margin-top: 10px; font-size: 0.8em; color: rgba(255,255,255,0.3); transform: translateZ(5px);">
+            防失联专属发布页 · 请按 Ctrl+D 收藏本站
+        </p>
+    </div>
+
+    <div id="download-modal" class="modal-overlay" onclick="closeDownloadModalOutside(event)">
+        <div class="modal-content glass-panel" style="transform: none; animation: none;">
+            <span class="close-btn" onclick="closeDownloadModal()"><i class="fas fa-times"></i></span>
+            <h2 style="margin-top:0; color:#fff; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:15px;">📥 选择下载方式</h2>
+            
+            <div class="modal-text" style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+                
+                <div class="dl-card dl-card-lanzou">
+                    <h3 style="margin-top:0; color:#10b981;"><i class="fas fa-bolt"></i> 蓝奏云直链下载 (推荐)</h3>
+                    <p style="font-size: 0.9em; color: #ddd;">免登录，不限速，点击即下体验极佳。</p>
+                    <a href="https://wwbga.lanzoup.com/iqQfG3l87yhg" target="_blank" class="btn" style="background: linear-gradient(135deg, #10b981, #059669); margin-top: 15px; width: 100%; box-sizing: border-box; box-shadow: none;">
+                        <span><i class="fas fa-external-link-alt"></i> 前往蓝奏云极速下载</span>
+                    </a>
+                </div>
+
+                <div class="dl-card dl-card-baidu">
+                    <h3 style="margin-top:0; color:#06a7ff;"><i class="fas fa-cloud"></i> 百度网盘下载 (备用)</h3>
+                    <p style="font-size: 0.9em; color: #888;">提取码：<strong style="color: #ccc; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px; letter-spacing: 1px;">asou</strong></p>
+                    <button onclick="downloadBaidu()" class="btn" style="background: rgba(6, 167, 255, 0.2); border: 1px solid rgba(6, 167, 255, 0.4); margin-top: 15px; width: 100%; box-shadow: none; color: #60a5fa;">
+                        <span id="baidu-btn-text"><i class="fas fa-copy"></i> 复制提取码并前往网盘</span>
+                    </button>
+                </div>
+                
+            </div>
         </div>
     </div>
-</div>
 
-<div id="rule-modal" class="modal-overlay" onclick="closeModalOutside(event)">
-    <div class="modal-content glass-panel" style="transform: none; animation: none;">
-        <span class="close-btn" onclick="closeModal()"><i class="fas fa-times"></i></span>
-        <h2 style="margin-top:0; color:#fff; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:15px;">📜 服务器公约与玩法</h2>
-        <div class="modal-text">
-            <p><strong>👋 欢迎来到 Asoul吧专属服务器！</strong>为了大家能有一个良好的游戏环境，请仔细阅读以下条款：</p><br>
-            <p><strong style="color:#c084fc;">【三大子服架构】</strong></p>
-            <ul>
-                <li><strong>🌲 生存服（日常服）：</strong>大家平时的主要聚集地，主打原版生存、养老、建筑与红石。</li>
-                <li><strong>🎮 小游戏服（活动服）：</strong>欢乐派对中心，会不定期举办充满节目效果的群友团建活动！</li>
-                <li><strong>🏗️ 创造服（测试服）：</strong>拥有无限资源的自由沙盒，供你随心所欲地测试红石或尽情建造。</li>
-            </ul><br>
-            <p><strong style="color:#60a5fa;">【核心生存设定】</strong></p>
-            <ul><li>本服为 1.21.11 原版生存环境。</li><li>死亡不掉落已开启，请放心探险。</li><li>服务器没有正版验证，正版盗版均可加入。</li></ul><br>
-            <p><strong style="color:#f43f5e;">【严厉禁止】</strong></p>
-            <ul><li>禁止飞天、杀戮光环，一经发现警告一次。</li><li>禁止恶意破坏他人建筑。</li><li>禁止盒相关。</li></ul><br>
-            <p>遇到任何问题，请在 QQ 群内联系管理员。祝你游戏愉快！</p>
+    <div id="rule-modal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-content glass-panel" style="transform: none; animation: none;">
+            <span class="close-btn" onclick="closeModal()"><i class="fas fa-times"></i></span>
+            <h2 style="margin-top:0; color:#fff; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:15px;">📜 服务器公约与玩法</h2>
+            <div class="modal-text">
+                <p><strong>👋 欢迎来到 Asoul吧专属服务器！</strong>为了大家能有一个良好的游戏环境，请仔细阅读以下条款：</p><br>
+                <p><strong style="color:#c084fc;">【三大子服架构】</strong></p>
+                <ul>
+                    <li><strong>🌲 生存服（日常服）：</strong>大家平时的主要聚集地，主打原版生存、养老、建筑与红石。</li>
+                    <li><strong>🎮 小游戏服（活动服）：</strong>欢乐派对中心，会不定期举办充满节目效果的群友团建活动！</li>
+                    <li><strong>🏗️ 创造服（测试服）：</strong>拥有无限资源的自由沙盒，供你随心所欲地测试红石或尽情建造。</li>
+                </ul><br>
+                <p><strong style="color:#60a5fa;">【核心生存设定】</strong></p>
+                <ul><li>本服为 1.21.11 原版生存环境。</li><li>死亡不掉落已开启，请放心探险。</li><li>服务器没有正版验证，正版盗版均可加入。</li></ul><br>
+                <p><strong style="color:#f43f5e;">【严厉禁止】</strong></p>
+                <ul><li>禁止飞天、杀戮光环，一经发现警告一次。</li><li>禁止恶意破坏他人建筑。</li><li>禁止盒相关。</li></ul><br>
+                <p>遇到任何问题，请在 QQ 群内联系管理员。祝你游戏愉快！</p>
+            </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
-<meting-js
-    server="netease"
-    type="playlist"
-    id="17847905126"
-    fixed="true"
-    autoplay="false"
-    loop="all"
-    order="list"
-    preload="auto"
-    list-folded="true"
-    list-max-height="400px"
-    lrc-type="0">
-</meting-js>
+    <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="17847905126"
+        fixed="true"
+        autoplay="false"
+        loop="all"
+        order="list"
+        preload="auto"
+        list-folded="true"
+        list-max-height="400px"
+        lrc-type="0">
+    </meting-js>
 
-<script>
-    function copyIP() {
-        const ipText = "ai.rainplay.cn:23402";
-        navigator.clipboard.writeText(ipText).then(() => {
-            const ipElement = document.getElementById("ip-address");
-            const originalText = ipElement.innerText;
-            const originalColor = ipElement.style.color;
-            ipElement.innerHTML = `<i class="fas fa-check" style="color:#4ade80;"></i> 复制成功！去粘贴吧`;
-            ipElement.style.color = "#4ade80"; 
-            setTimeout(() => { ipElement.innerText = originalText; ipElement.style.color = originalColor || "#60a5fa"; }, 2000);
-        });
-    }
+    <script>
+        function copyIP() {
+            const ipText = "ai.rainplay.cn:23402";
+            navigator.clipboard.writeText(ipText).then(() => {
+                const ipElement = document.getElementById("ip-address");
+                const originalText = ipElement.innerText;
+                const originalColor = ipElement.style.color;
+                ipElement.innerHTML = `<i class="fas fa-check" style="color:#4ade80;"></i> 复制成功！去粘贴吧`;
+                ipElement.style.color = "#4ade80"; 
+                setTimeout(() => { ipElement.innerText = originalText; ipElement.style.color = originalColor || "#60a5fa"; }, 2000);
+            });
+        }
 
-    function copyQQ() {
-        const qqNumber = "1036428799";
-        navigator.clipboard.writeText(qqNumber).then(() => {
-            const qqBtnSpan = document.querySelector("#qq-btn span");
-            const originalText = qqBtnSpan.innerHTML;
-            const qqBtn = document.getElementById("qq-btn");
-            qqBtnSpan.innerHTML = `<i class="fas fa-check-double"></i> 群号复制成功！`;
-            qqBtn.style.background = "linear-gradient(135deg, #10b981, #047857)"; 
-            setTimeout(() => { qqBtnSpan.innerHTML = originalText; qqBtn.style.background = ""; }, 3000); 
-        });
-    }
+        function copyQQ() {
+            const qqNumber = "1036428799";
+            navigator.clipboard.writeText(qqNumber).then(() => {
+                const qqBtnSpan = document.querySelector("#qq-btn span");
+                const originalText = qqBtnSpan.innerHTML;
+                const qqBtn = document.getElementById("qq-btn");
+                qqBtnSpan.innerHTML = `<i class="fas fa-check-double"></i> 群号复制成功！`;
+                qqBtn.style.background = "linear-gradient(135deg, #10b981, #047857)"; 
+                setTimeout(() => { qqBtnSpan.innerHTML = originalText; qqBtn.style.background = ""; }, 3000); 
+            });
+        }
 
-    function openModal() { document.getElementById('rule-modal').classList.add('active'); }
-    function closeModal() { document.getElementById('rule-modal').classList.remove('active'); }
-    function closeModalOutside(event) { if (event.target.id === 'rule-modal') { closeModal(); } }
+        function openModal() { document.getElementById('rule-modal').classList.add('active'); }
+        function closeModal() { document.getElementById('rule-modal').classList.remove('active'); }
+        function closeModalOutside(event) { if (event.target.id === 'rule-modal') { closeModal(); } }
 
-    function openDownloadModal() { document.getElementById('download-modal').classList.add('active'); }
-    function closeDownloadModal() { document.getElementById('download-modal').classList.remove('active'); }
-    function closeDownloadModalOutside(event) { if (event.target.id === 'download-modal') { closeDownloadModal(); } }
+        function openDownloadModal() { document.getElementById('download-modal').classList.add('active'); }
+        function closeDownloadModal() { document.getElementById('download-modal').classList.remove('active'); }
+        function closeDownloadModalOutside(event) { if (event.target.id === 'download-modal') { closeDownloadModal(); } }
 
-    function downloadBaidu() {
-        const code = "asou";
-        navigator.clipboard.writeText(code).then(() => {
-            const btnText = document.getElementById("baidu-btn-text");
-            const originalText = btnText.innerHTML;
-            btnText.innerHTML = `<i class="fas fa-check"></i> 提取码复制成功！正在跳转...`;
-            setTimeout(() => {
-                window.open("https://pan.baidu.com/s/1P-pZ5d6dHFNuR1ixjknoEQ", "_blank");
-                btnText.innerHTML = originalText; 
-            }, 800);
-        });
-    }
+        function downloadBaidu() {
+            const code = "asou";
+            navigator.clipboard.writeText(code).then(() => {
+                const btnText = document.getElementById("baidu-btn-text");
+                const originalText = btnText.innerHTML;
+                btnText.innerHTML = `<i class="fas fa-check"></i> 提取码复制成功！正在跳转...`;
+                setTimeout(() => {
+                    window.open("https://pan.baidu.com/s/1P-pZ5d6dHFNuR1ixjknoEQ", "_blank");
+                    btnText.innerHTML = originalText; 
+                }, 800);
+            });
+        }
 
-    async function fetchServerStatus() {
-        const statusText = document.getElementById('status-text');
-        const statusDot = document.getElementById('status-dot');
-        const avatarContainer = document.getElementById('avatar-container');
-        const apiUrl = 'https://api.mcsrvstat.us/2/ai.rainplay.cn:23402';
-        try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            if (data.online) {
-                statusText.innerHTML = `ONLINE | 在线人数: <strong style="color:#fff;">${data.players.online}</strong> / ${data.players.max}`;
-                statusDot.style.backgroundColor = "#4ade80"; statusDot.style.boxShadow = "0 0 12px #4ade80";
-                if (data.players.list && data.players.list.length > 0) {
-                    let avatarHtml = '';
-                    const displayCount = Math.min(data.players.list.length, 8);
-                    for (let i = 0; i < displayCount; i++) {
-                        const playerName = data.players.list[i];
-                        avatarHtml += `<img src="https://mc-heads.net/avatar/${playerName}/32" class="player-avatar" title="${playerName}" alt="${playerName}">`;
+        async function fetchServerStatus() {
+            const statusText = document.getElementById('status-text');
+            const statusDot = document.getElementById('status-dot');
+            const avatarContainer = document.getElementById('avatar-container');
+            const apiUrl = 'https://api.mcsrvstat.us/2/ai.rainplay.cn:23402';
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                if (data.online) {
+                    statusText.innerHTML = `ONLINE | 在线人数: <strong style="color:#fff;">${data.players.online}</strong> / ${data.players.max}`;
+                    statusDot.style.backgroundColor = "#4ade80"; statusDot.style.boxShadow = "0 0 12px #4ade80";
+                    if (data.players.list && data.players.list.length > 0) {
+                        let avatarHtml = '';
+                        const displayCount = Math.min(data.players.list.length, 8);
+                        for (let i = 0; i < displayCount; i++) {
+                            const playerName = data.players.list[i];
+                            avatarHtml += `<img src="https://mc-heads.net/avatar/${playerName}/32" class="player-avatar" title="${playerName}" alt="${playerName}">`;
+                        }
+                        if (data.players.online > 8) { avatarHtml += `<div class="avatar-more">+${data.players.online - 8}</div>`; }
+                        avatarContainer.innerHTML = avatarHtml;
+                    } else if (data.players.online > 0) {
+                        avatarContainer.innerHTML = `<span style="font-size:0.8em; color:#888;">(服务器未公开玩家列表)</span>`;
                     }
-                    if (data.players.online > 8) { avatarHtml += `<div class="avatar-more">+${data.players.online - 8}</div>`; }
-                    avatarContainer.innerHTML = avatarHtml;
-                } else if (data.players.online > 0) {
-                     avatarContainer.innerHTML = `<span style="font-size:0.8em; color:#888;">(服务器未公开玩家列表)</span>`;
+                } else {
+                    statusText.innerText = "OFFLINE | 服务器维护中"; statusText.style.color = "#ef4444"; 
+                    statusDot.style.backgroundColor = "#ef4444"; statusDot.style.boxShadow = "0 0 12px #ef4444";
+                    avatarContainer.innerHTML = ''; 
                 }
-            } else {
-                statusText.innerText = "OFFLINE | 服务器维护中"; statusText.style.color = "#ef4444"; 
-                statusDot.style.backgroundColor = "#ef4444"; statusDot.style.boxShadow = "0 0 12px #ef4444";
-                avatarContainer.innerHTML = ''; 
+            } catch (error) { statusText.innerText = "ERROR | 状态连接超时"; }
+        }
+
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        const particlesArray = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5; this.speedX = Math.random() * 1 - 0.5; this.speedY = Math.random() * -1.5 - 0.5; 
+                this.color = `rgba(253, 224, 71, ${Math.random() * 0.5 + 0.1})`; 
             }
-        } catch (error) { statusText.innerText = "ERROR | 状态连接超时"; }
-    }
-
-    const canvas = document.getElementById('particles-canvas');
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    const particlesArray = [];
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 0.5; this.speedX = Math.random() * 1 - 0.5; this.speedY = Math.random() * -1.5 - 0.5; 
-            this.color = `rgba(253, 224, 71, ${Math.random() * 0.5 + 0.1})`; 
+            update() { this.x += this.speedX; this.y += this.speedY; if (this.y < 0) { this.y = canvas.height; this.x = Math.random() * canvas.width; } }
+            draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
-        update() { this.x += this.speedX; this.y += this.speedY; if (this.y < 0) { this.y = canvas.height; this.x = Math.random() * canvas.width; } }
-        draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
-    }
-    function initParticles() { for (let i = 0; i < 50; i++) { particlesArray.push(new Particle()); } }
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); 
-        for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); particlesArray[i].draw(); }
-        requestAnimationFrame(animateParticles); 
-    }
-
-    const panel = document.getElementById('tilt-panel');
-    document.addEventListener('mousemove', (e) => {
-        const xAxis = (window.innerWidth / 2 - e.pageX) / 45; 
-        const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
-        panel.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        panel.style.boxShadow = `${-xAxis}px ${yAxis}px 50px rgba(0,0,0,0.5)`;
-    });
-    document.addEventListener('mouseleave', () => {
-        panel.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
-        panel.style.boxShadow = `0 25px 50px rgba(0,0,0,0.5)`;
-    });
-
-    function triggerEasterEgg() {
-        const body = document.getElementById('main-body');
-        body.classList.add('shake-screen');
-        setTimeout(() => { body.classList.remove('shake-screen'); }, 500);
-        for(let i = 0; i < 40; i++) { setTimeout(createLoot, i * 60); }
-    }
-
-    function createLoot() {
-        const loot = document.createElement('div');
-        const items = ['🐮', '🍬', '🍦', '⭐']; 
-        loot.innerText = items[Math.floor(Math.random() * items.length)];
-        loot.className = 'easter-egg-loot';
-        loot.style.left = Math.random() * 95 + 'vw';
-        loot.style.top = '-50px'; 
-        loot.style.fontSize = (Math.random() * 20 + 25) + 'px';
-        loot.style.filter = 'drop-shadow(0 5px 10px rgba(0,0,0,0.5))'; 
-        document.body.appendChild(loot);
-        setTimeout(() => {
-            loot.style.top = '120vh'; 
-            loot.style.transform = `rotate(${Math.random() * 720}deg)`; 
-        }, 50);
-        setTimeout(() => { loot.remove(); }, 3000);
-    }
-
-    function setupEasterEggTrigger() {
-        const hintText = document.getElementById('hint-text');
-        const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-
-        if (isMobile) {
-            hintText.innerText = "💡 尝试连续点击屏幕空白处 3 次 (终极次) 召唤惊喜";
-            let tapCount = 0;
-            let tapTimer;
-            document.addEventListener('click', (e) => {
-                // 防误触：避开按钮、弹窗和左下角的音乐播放器 (.aplayer)
-                if (e.target.closest('.btn') || e.target.closest('.info-box') || e.target.closest('.close-btn') || e.target.closest('.aplayer') || e.target.closest('.modal-content')) {
-                    return; 
-                }
-                tapCount++;
-                clearTimeout(tapTimer);
-                if (tapCount === 3) { triggerEasterEgg(); tapCount = 0; } 
-                else { tapTimer = setTimeout(() => { tapCount = 0; }, 1200); }
-            });
-        } else {
-            hintText.innerText = "💡 尝试在键盘上依次输入 A S O U L 召唤惊喜";
-            const secretCode = ['a', 's', 'o', 'u', 'l']; 
-            let keyIndex = 0;
-            document.addEventListener('keydown', (e) => {
-                if (e.key.toLowerCase() === secretCode[keyIndex]) {
-                    keyIndex++;
-                    if (keyIndex === secretCode.length) { triggerEasterEgg(); keyIndex = 0; }
-                } else { keyIndex = 0; }
-            });
+        function initParticles() { for (let i = 0; i < 50; i++) { particlesArray.push(new Particle()); } }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); particlesArray[i].draw(); }
+            requestAnimationFrame(animateParticles); 
         }
-    }
 
-    window.onload = () => {
-        fetchServerStatus();
-        initParticles();
-        animateParticles();
-        setupEasterEggTrigger();
-    };
-</script>
+        const panel = document.getElementById('tilt-panel');
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 45; 
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
+            panel.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            panel.style.boxShadow = `${-xAxis}px ${yAxis}px 50px rgba(0,0,0,0.5)`;
+        });
+        document.addEventListener('mouseleave', () => {
+            panel.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
+            panel.style.boxShadow = `0 25px 50px rgba(0,0,0,0.5)`;
+        });
 
-</body>
-</html>
+        function triggerEasterEgg() {
+            const body = document.getElementById('main-body');
+            body.classList.add('shake-screen');
+            setTimeout(() => { body.classList.remove('shake-screen'); }, 500);
+            for(let i = 0; i < 40; i++) { setTimeout(createLoot, i * 60); }
+        }
+
+        function createLoot() {
+            const loot = document.createElement('div');
+            const items = ['🐮', '🍬', '🍦', '⭐']; 
+            loot.innerText = items[Math.floor(Math.random() * items.length)];
+            loot.className = 'easter-egg-loot';
+            loot.style.left = Math.random() * 95 + 'vw';
+            loot.style.top = '-50px'; 
+            loot.style.fontSize = (Math.random() * 20 + 25) + 'px';
+            loot.style.filter = 'drop-shadow(0 5px 10px rgba(0,0,0,0.5))'; 
+            document.body.appendChild(loot);
+            setTimeout(() => {
+                loot.style.top = '120vh'; 
+                loot.style.transform = `rotate(${Math.random() * 720}deg)`; 
+            }, 50);
+            setTimeout(() => { loot.remove(); }, 3000);
+        }
+
+        function setupEasterEggTrigger() {
+            const hintText = document.getElementById('hint-text');
+            const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                hintText.innerText = "💡 尝试连续点击屏幕空白处 3 次 (终极次) 召唤惊喜";
+                let tapCount = 0;
+                let tapTimer;
+                document.addEventListener('click', (e) => {
+                    // 防误触：避开按钮、弹窗和左下角的音乐播放器 (.aplayer)
+                    if (e.target.closest('.btn') || e.target.closest('.info-box') || e.target.closest('.close-btn') || e.target.closest('.aplayer') || e.target.closest('.modal-content')) {
+                        return; 
+                    }
+                    tapCount++;
+                    clearTimeout(tapTimer);
+                    if (tapCount === 3) { triggerEasterEgg(); tapCount = 0; } 
+                    else { tapTimer = setTimeout(() => { tapCount = 0; }, 1200); }
+                });
+            } else {
+                hintText.innerText = "💡 尝试在键盘上依次输入 A S O U L 召唤惊喜";
+                const secretCode = ['a', 's', 'o', 'u', 'l']; 
+                let keyIndex = 0;
+                document.addEventListener('keydown', (e) => {
+                    if (e.key.toLowerCase() === secretCode[keyIndex]) {
+                        keyIndex++;
+                        if (keyIndex === secretCode.length) { triggerEasterEgg(); keyIndex = 0; }
+                    } else { keyIndex = 0; }
+                });
+            }
+        }
+
+        window.onload = () => {
+            fetchServerStatus();
+            initParticles();
+            animateParticles();
+            setupEasterEggTrigger();
+        };
+    </script>
+
+    </body>
+    </html>
