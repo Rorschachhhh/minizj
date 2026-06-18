@@ -24,12 +24,13 @@
                 radial-gradient(ellipse at 80% 20%, rgba(30, 80, 200, 0.4) 0%, transparent 50%),
                 radial-gradient(ellipse at 50% 50%, rgba(10, 10, 40, 0.9) 0%, transparent 100%),
                 linear-gradient(135deg, #0a0a1e 0%, #0e1340 35%, #1a0a2e 65%, #0a0820 100%);
+            background-attachment: fixed;
             color: #fff;
-            overflow: hidden;
+            overflow-x: hidden;
             perspective: 1000px;
         }
 
-        #particles-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
         @keyframes fadeUpIn {
             0%   { opacity: 0; transform: translateY(30px); }
@@ -58,6 +59,7 @@
             box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(120,60,255,0.1) inset;
             padding: 40px 30px; border-radius: 20px; text-align: center;
             position: relative; z-index: 10;
+            margin: 30px 0;
             animation: fadeUpIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
             transform-style: preserve-3d;
@@ -97,7 +99,7 @@
         .action-buttons { display: flex; flex-direction: column; gap: 12px; transform: translateZ(20px); }
         .btn { display: block; width: 100%; box-sizing: border-box; padding: 14px 20px; color: #fff; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 1.05em; cursor: pointer; border: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
         .btn i { margin-right: 10px; font-size: 1.1em; position: relative; z-index: 2; }
-        .btn::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); z-index: 1; transition: all 0.5s ease; }
+        .btn::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); z-index: 1; transition: all 0.5s ease; pointer-events: none; }
         .btn:hover::after { left: 200%; }
         .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
         .btn-download { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
@@ -261,9 +263,9 @@
         <button class="btn btn-download" onclick="openDownloadModal()">
             <span><i class="fas fa-download"></i>下载推荐整合包 (非必选)</span>
         </button>
-        <button class="btn btn-qq" onclick="copyQQ()" id="qq-btn">
-            <span><i class="fab fa-qq"></i>一键复制 QQ 群号 (483308150)</span>
-        </button>
+        <a class="btn btn-qq" href="https://qm.qq.com/cgi-bin/qm/qr?k=KAHCPOaTZPHZCXRwwsu39XBU3tdrp1zc&jump_from=webapi&authKey=fcVT8gGf82vNfeqU4Pk9DRPcIq7XWeEZ4KPzHTGRG6xRzy3SbzB8AQ5i66w20tuB" target="_blank" rel="noopener" onclick="copyQQ()" id="qq-btn">
+            <span><i class="fab fa-qq"></i>点击一键加入 QQ 群 (1067594172)</span>
+        </a>
         <button class="btn btn-rule" onclick="openModal('rule-modal')">
             <span><i class="fas fa-book-open"></i>查看服务器玩法与规则</span>
         </button>
@@ -272,7 +274,7 @@
         </button>
     </div>
 
-    <div id="hint-text" class="easter-egg-hint">正在识别设备获取神秘暗号...</div>
+    <div id="hint-text" class="easter-egg-hint">💡 在键盘上依次输入 A S O U L 召唤惊喜</div>
 
     <p style="margin-top: 10px; font-size: 0.8em; color: rgba(255,255,255,0.25); transform: translateZ(5px);">
         防失联专属发布页 · 请按 Ctrl+D 收藏本站
@@ -291,16 +293,16 @@
             <div class="dl-card dl-card-lanzou">
                 <h3 style="margin-top:0; color:#10b981;"><i class="fas fa-bolt"></i> 蓝奏云直链下载 (推荐)</h3>
                 <p style="font-size:0.9em; color:#ddd;">免登录，不限速，点击即下体验极佳。</p>
-                <a href="https://www.lanzoup.com/iqQfG3l87yhg" target="_blank" class="btn" style="background:linear-gradient(135deg,#10b981,#059669); margin-top:15px; box-shadow:none;">
+                <a href="https://www.lanzoup.com/iqQfG3l87yhg" target="_blank" rel="noopener" class="btn" style="background:linear-gradient(135deg,#10b981,#059669); margin-top:15px; box-shadow:none;">
                     <span><i class="fas fa-external-link-alt"></i> 前往蓝奏云极速下载</span>
                 </a>
             </div>
             <div class="dl-card dl-card-baidu">
                 <h3 style="margin-top:0; color:#06a7ff;"><i class="fas fa-cloud"></i> 百度网盘下载 (备用)</h3>
                 <p style="font-size:0.9em; color:#888;">提取码：<strong style="color:#ccc; background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:4px; letter-spacing:1px;">asou</strong></p>
-                <button onclick="downloadBaidu()" class="btn" style="background:rgba(6,167,255,0.2); border:1px solid rgba(6,167,255,0.4); margin-top:15px; box-shadow:none; color:#60a5fa;">
+                <a href="https://pan.baidu.com/s/1P-pZ5d6dHFNuR1ixjknoEQ" target="_blank" rel="noopener" onclick="copyBaiduCode()" class="btn" style="background:rgba(6,167,255,0.2); border:1px solid rgba(6,167,255,0.4); margin-top:15px; box-shadow:none; color:#60a5fa;">
                     <span id="baidu-btn-text"><i class="fas fa-copy"></i> 复制提取码并前往网盘</span>
-                </button>
+                </a>
             </div>
         </div>
     </div>
@@ -365,11 +367,31 @@
 </meting-js>
 
 <script>
-    /* ═══════════════════════════════════════════════
-       ★ 赞助者数据 — 在这里修改/添加赞助记录即可
+    /* ═══════════════ 通用复制（兼容 file:// 与 http 非安全环境）═══════════════ */
+    function safeCopy(text) {
+        // 优先用现代 API（仅 https / localhost 可用）
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        }
+        // 降级方案：execCommand，适配本地直接打开的情况
+        return new Promise((resolve, reject) => {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.cssText = 'position:fixed;top:-9999px;opacity:0;';
+                document.body.appendChild(ta);
+                ta.focus(); ta.select();
+                const ok = document.execCommand('copy');
+                document.body.removeChild(ta);
+                ok ? resolve() : reject(new Error('execCommand failed'));
+            } catch (e) { reject(e); }
+        });
+    }
+
+    /* ═══════════════ 赞助者数据 ═══════════════
        格式：{ name: "昵称", amount: 金额(数字), note: "备注(可空)" }
        系统会自动按金额从高到低排序并计算总额
-    ═══════════════════════════════════════════════ */
+    ════════════════════════════════════════════ */
     const SPONSORS = [
         { name: "dongxuelian",            amount: 50,   note: "Can't keep up! Is the server overloaded?" },
         { name: "maple",                  amount: 20,   note: "" },
@@ -387,7 +409,7 @@
         { name: "月",                     amount: 10,   note: "" },
         { name: "难以言悦",               amount: 60,   note: "" },
         { name: "肆§梦",                 amount: 28,   note: "" },
-        { name: "神秘赞助（待认领）",               amount: 800,  note: "" },
+        { name: "神秘赞助（待认领）",     amount: 800,  note: "" },
         { name: "天天向上",               amount: 600,  note: "" },
         { name: "无家可归的人",           amount: 333.33,   note: "还我命来" },
         { name: "友利奈绪",               amount: 10,   note: "" },
@@ -396,17 +418,22 @@
         // ← 在这里继续添加
     ];
 
+    // 金额格式化：整数不带小数，小数保留两位
+    function fmtMoney(n) {
+        return Number.isInteger(n) ? String(n) : n.toFixed(2);
+    }
+
     function renderSponsors() {
         const sorted = [...SPONSORS].sort((a, b) => {
-            // 英文（ASCII）排在中文前面
             const aLatin = /^[a-zA-Z]/.test(a.name);
             const bLatin = /^[a-zA-Z]/.test(b.name);
             if (aLatin && !bLatin) return -1;
             if (!aLatin && bLatin) return 1;
             return a.name.localeCompare(b.name, 'zh-CN', { sensitivity: 'base' });
         });
-        const total  = sorted.reduce((s, x) => s + x.amount, 0);
-        document.getElementById('sponsor-total').textContent = `合计 ¥${total}`;
+        // 用四舍五入到分，避免浮点累加误差（如 0.1+0.2）
+        const total = Math.round(sorted.reduce((s, x) => s + x.amount, 0) * 100) / 100;
+        document.getElementById('sponsor-total').textContent = `合计 ¥${fmtMoney(total)}`;
 
         const list = document.getElementById('sponsor-list');
         if (sorted.length === 0) {
@@ -420,12 +447,12 @@
                     <div class="sponsor-name">${escHtml(s.name)}</div>
                     ${s.note ? `<div class="sponsor-note">${escHtml(s.note)}</div>` : ''}
                 </div>
-                <div class="sponsor-amount">¥${s.amount}</div>
+                <div class="sponsor-amount">¥${fmtMoney(s.amount)}</div>
             </div>`).join('');
     }
 
     function escHtml(str) {
-        return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
 
     /* ═══════════════ 弹窗控制 ═══════════════ */
@@ -433,63 +460,94 @@
         if (id === 'sponsor-modal') renderSponsors();
         document.getElementById(id).classList.add('active');
     }
+    function openDownloadModal() { openModal('download-modal'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
     function closeModalOutside(event, id) { if (event.target.id === id) closeModal(id); }
+    // ESC 关闭任意打开的弹窗
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+        }
+    });
 
     /* ═══════════════ IP / QQ 复制 ═══════════════ */
     function copyIP() {
-        navigator.clipboard.writeText("ai.rainplay.cn:23402").then(() => {
-            const el = document.getElementById("ip-address");
-            const orig = el.innerText;
+        const el = document.getElementById("ip-address");
+        const orig = el.innerText;
+        safeCopy("ai.rainplay.cn:23402").then(() => {
             el.innerHTML = `<i class="fas fa-check" style="color:#4ade80;"></i> 复制成功！去粘贴吧`;
             el.style.color = "#4ade80";
             setTimeout(() => { el.innerText = orig; el.style.color = ""; }, 2000);
+        }).catch(() => {
+            el.innerHTML = `<i class="fas fa-exclamation-circle" style="color:#facc15;"></i> 复制失败，请手动选中`;
+            setTimeout(() => { el.innerText = orig; }, 2500);
         });
     }
 
+    // 加群按钮：链接已同步跳转加群，这里顺手把群号复制到剪贴板作兜底
     function copyQQ() {
-        navigator.clipboard.writeText("1036428799").then(() => {
-            const span = document.querySelector("#qq-btn span");
-            const btn  = document.getElementById("qq-btn");
-            const orig = span.innerHTML;
-            span.innerHTML = `<i class="fas fa-check-double"></i> 群号复制成功！`;
+        const span = document.querySelector("#qq-btn span");
+        const btn  = document.getElementById("qq-btn");
+        const orig = span.innerHTML;
+        safeCopy("1067594172").then(() => {
+            span.innerHTML = `<i class="fas fa-check-double"></i> 群号已复制，正在唤起 QQ...`;
             btn.style.background = "linear-gradient(135deg,#10b981,#047857)";
+        }).catch(() => {
+            span.innerHTML = `<i class="fas fa-info-circle"></i> 群号：1067594172，正在唤起 QQ...`;
+        }).finally(() => {
             setTimeout(() => { span.innerHTML = orig; btn.style.background = ""; }, 3000);
         });
     }
 
-    function downloadBaidu() {
-        navigator.clipboard.writeText("asou").then(() => {
-            const btnText = document.getElementById("baidu-btn-text");
-            const orig = btnText.innerHTML;
-            btnText.innerHTML = `<i class="fas fa-check"></i> 提取码复制成功！正在跳转...`;
-            setTimeout(() => { window.open("https://pan.baidu.com/s/1P-pZ5d6dHFNuR1ixjknoEQ","_blank"); btnText.innerHTML = orig; }, 800);
+    // 复制百度提取码（不阻塞跳转：链接已用 <a target="_blank"> 同步打开）
+    function copyBaiduCode() {
+        const btnText = document.getElementById("baidu-btn-text");
+        const orig = btnText.innerHTML;
+        safeCopy("asou").then(() => {
+            btnText.innerHTML = `<i class="fas fa-check"></i> 提取码已复制 (asou)，正在前往...`;
+        }).catch(() => {
+            btnText.innerHTML = `<i class="fas fa-info-circle"></i> 提取码：asou，正在前往...`;
+        }).finally(() => {
+            setTimeout(() => { btnText.innerHTML = orig; }, 2500);
         });
     }
 
-    /* ═══════════════ 服务器状态 ═══════════════ */
+    /* ═══════════════ 服务器状态（带超时）═══════════════ */
     async function fetchServerStatus() {
         const statusText = document.getElementById('status-text');
         const statusDot  = document.getElementById('status-dot');
         const avatarCont = document.getElementById('avatar-container');
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 8000);
         try {
-            const data = await (await fetch('https://api.mcsrvstat.us/2/ai.rainplay.cn:23402')).json();
+            const res = await fetch('https://api.mcsrvstat.us/3/ai.rainplay.cn:23402', { signal: ctrl.signal });
+            const data = await res.json();
+            clearTimeout(timer);
             if (data.online) {
-                statusText.innerHTML = `ONLINE | 在线人数: <strong style="color:#fff;">${data.players.online}</strong> / ${data.players.max}`;
+                const online = data.players?.online ?? 0;
+                const max    = data.players?.max ?? '?';
+                statusText.innerHTML = `ONLINE | 在线人数: <strong style="color:#fff;">${online}</strong> / ${max}`;
                 statusDot.style.backgroundColor = "#4ade80"; statusDot.style.boxShadow = "0 0 12px #4ade80";
-                if (data.players.list?.length) {
-                    const n = Math.min(data.players.list.length, 8);
-                    avatarCont.innerHTML = data.players.list.slice(0,n).map(p =>
-                        `<img src="https://mc-heads.net/avatar/${p}/32" class="player-avatar" title="${p}" alt="${p}">`
-                    ).join('') + (data.players.online > 8 ? `<div class="avatar-more">+${data.players.online-8}</div>` : '');
-                } else if (data.players.online > 0) {
+                const list = data.players?.list || [];
+                if (list.length) {
+                    const n = Math.min(list.length, 8);
+                    avatarCont.innerHTML = list.slice(0, n).map(p => {
+                        const name = typeof p === 'string' ? p : (p.name || '');
+                        const safe = encodeURIComponent(name);
+                        return `<img src="https://mc-heads.net/avatar/${safe}/32" class="player-avatar" title="${escHtml(name)}" alt="${escHtml(name)}">`;
+                    }).join('') + (online > 8 ? `<div class="avatar-more">+${online - 8}</div>` : '');
+                } else if (online > 0) {
                     avatarCont.innerHTML = `<span style="font-size:0.8em;color:#888;">(服务器未公开玩家列表)</span>`;
                 }
             } else {
                 statusText.innerText = "OFFLINE | 服务器维护中"; statusText.style.color = "#ef4444";
                 statusDot.style.backgroundColor = "#ef4444"; statusDot.style.boxShadow = "0 0 12px #ef4444";
             }
-        } catch { statusText.innerText = "ERROR | 状态连接超时"; }
+        } catch {
+            clearTimeout(timer);
+            statusText.innerText = "ERROR | 状态连接超时"; statusText.style.color = "#facc15";
+            statusDot.style.backgroundColor = "#facc15"; statusDot.style.boxShadow = "0 0 12px #facc15";
+        }
     }
 
     /* ═══════════════ 粒子系统 ═══════════════ */
@@ -504,14 +562,30 @@
             this.x = Math.random() * canvas.width; this.y = canvas.height;
             this.size = Math.random() * 2 + 0.4;
             this.speedX = Math.random() * 0.8 - 0.4; this.speedY = Math.random() * -1.2 - 0.4;
-            const hue = Math.random() > 0.5 ? `260,${Math.floor(Math.random()*80+50)}%` : `210,${Math.floor(Math.random()*80+50)}%`;
-            this.color = `hsla(${hue},80%,${Math.random()*0.4+0.1})`;
+            const hueBase = Math.random() > 0.5 ? 260 : 210;
+            const sat = Math.floor(Math.random() * 30 + 60);
+            const alpha = (Math.random() * 0.4 + 0.1).toFixed(2);
+            this.color = `hsla(${hueBase}, ${sat}%, 70%, ${alpha})`;
         }
         update() { this.x += this.speedX; this.y += this.speedY; if (this.y < 0) this.reset(); }
         draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); }
     }
     for (let i = 0; i < 60; i++) particlesArray.push(new Particle());
-    (function loop() { ctx.clearRect(0,0,canvas.width,canvas.height); particlesArray.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(loop); })();
+    let rafId;
+    (function loop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particlesArray.forEach(p => { p.update(); p.draw(); });
+        rafId = requestAnimationFrame(loop);
+    })();
+    // 标签页切到后台时暂停动画，省电
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) { cancelAnimationFrame(rafId); }
+        else { rafId = requestAnimationFrame(function l() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => { p.update(); p.draw(); });
+            rafId = requestAnimationFrame(l);
+        }); }
+    });
 
     /* ═══════════════ 3D 倾斜效果 ═══════════════ */
     const panel = document.getElementById('tilt-panel');
@@ -562,15 +636,13 @@
         }
     }
 
-    /* ═══════════════════════════════════════════════
-       ★ 服务器动态 — 在这里修改/添加动态内容
+    /* ═══════════════ 服务器动态 ═══════════════
        tag 可选：event(活动) / build(建设) / notice(公告) / update(更新)
-    ═══════════════════════════════════════════════ */
+    ════════════════════════════════════════════ */
     const NEWS = [
-        { tag: "event",  text: "思诺生日临近！服务器正在加紧建设生贺建筑，欢迎加入一起参与！" },
+        { tag: "event",  text: "贝拉生日临近！服务器正在加紧建设生贺建筑，欢迎加入一起参与！" },
         { tag: "build",  text: "生存服主城区扩建中，欢迎入驻～" },
         { tag: "notice", text: "已开启死亡不掉落，请放心出发探险！" },
-        { tag: "event",  text: "欢迎加入列车狼人杀小游戏~" },
     ];
 
     const TAG_LABEL = { event:"活动", build:"建设", notice:"公告", update:"更新" };
@@ -578,13 +650,12 @@
     function renderNews() {
         const track = document.getElementById('news-track');
         if (!track || NEWS.length === 0) return;
-        // 渲染两份实现无缝循环
         const html = NEWS.map(n => `
             <span class="news-item">
-                <span class="news-tag tag-${n.tag}">${TAG_LABEL[n.tag]}</span>
-                ${n.text}
+                <span class="news-tag tag-${n.tag}">${TAG_LABEL[n.tag] || ''}</span>
+                ${escHtml(n.text)}
             </span>`).join('');
-        track.innerHTML = html + html;
+        track.innerHTML = html + html; // 渲染两份实现无缝循环
     }
 
     window.onload = () => { fetchServerStatus(); setupEasterEggTrigger(); renderNews(); };
